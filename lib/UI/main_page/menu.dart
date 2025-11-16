@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:your_advisor/domain/app_colors.dart';
 
 class MenuPage extends StatelessWidget {
@@ -15,9 +18,7 @@ class MenuPage extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text(
-                ", "
-              ),
+              child: SvgPicture.asset("assets/svg/Logo_test-removebg-preview.svg", width: 70,),
             )
           ],
         ),

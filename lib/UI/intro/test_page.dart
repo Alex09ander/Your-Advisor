@@ -17,7 +17,7 @@ class TestPage extends StatefulWidget {
 class TestPageState extends State<TestPage>{
 
   String txt = "W jakim stopniu uważasz się\nza osobę społeczną?";
-  bool isOutlined_ = true;
+  String btnNext = "Dalej";
   double btn = 0;
   double clickCount = 0;
   double answer1 = 0;
@@ -39,11 +39,6 @@ class TestPageState extends State<TestPage>{
 
   get file => null;
 
-  void changeMarked() {
-    setState(() {
-      isOutlined_ = !isOutlined_;
-    });
-  }
 
 
 
@@ -56,7 +51,7 @@ class TestPageState extends State<TestPage>{
           children: [
             SizedBox(height: 50,),
             ProgressBar(
-              progress: 100,
+              progress: (clickCount/6)*350,
             ),
             SizedBox(height: 30,),
             Align(
@@ -83,15 +78,18 @@ class TestPageState extends State<TestPage>{
                       children: [
                         CustomCircleBtn(
                             onTap: () {
-                            setState(() {
-                              btn = 1;
-                              changeMarked();
-                            });
-
+                              setState(() {
+                                if(btn == 1){
+                                  btn = 0;
+                                }
+                                else if(btn != 1){
+                                  btn = 1;
+                                }
+                              });
                           },
                             bgColor: AppColors.greenColor,
                             mRadius: 70,
-                            isOutlined: btn == 1 ? isOutlined_ : true,
+                            isOutlined: btn != 1 ? true : false,
 
                         ),
                         Padding(
@@ -117,14 +115,19 @@ class TestPageState extends State<TestPage>{
                             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                           child: CustomCircleBtn(
                               onTap: () {
-                              setState(() {
-                                btn = 2;
-                                changeMarked();
-                              });
+                                setState(() {
+                                  if(btn == 2){
+                                    btn = 0;
+                                  }
+                                  else if(btn != 2){
+                                    btn = 2;
+                                  }
+                                });
+
                             },
                               bgColor: AppColors.greenColor,
                               mRadius: 60,
-                              isOutlined: btn == 2 ? isOutlined_ : true,
+                              isOutlined: btn != 2 ? true : false,
 
                           ),
                         ),
@@ -151,14 +154,19 @@ class TestPageState extends State<TestPage>{
                           padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: CustomCircleBtn(
                               onTap: () {
-                              setState(() {
-                                btn = 3;
-                                changeMarked();
-                              });
+                                setState(() {
+                                  if(btn == 3){
+                                    btn = 0;
+                                  }
+                                  else if(btn != 3){
+                                    btn = 3;
+                                  }
+                                });
+
                             },
                               bgColor: AppColors.greenColor,
                               mRadius: 50,
-                              isOutlined: btn == 3 ? isOutlined_ : true,
+                              isOutlined: btn != 3 ? true : false,
 
                           ),
                         ),
@@ -186,13 +194,18 @@ class TestPageState extends State<TestPage>{
                           child: CustomCircleBtn(
                             onTap: () {
                               setState(() {
-                                btn = 4;
-                                changeMarked();
+                                if(btn == 4){
+                                  btn = 0;
+                                }
+                                else if(btn != 4){
+                                  btn = 4;
+                                }
                               });
+
                             },
                               bgColor: AppColors.greyColor,
                               mRadius: 40,
-                              isOutlined: btn == 4 ? isOutlined_ : true,
+                              isOutlined: btn != 4 ? true : false,
 
                           ),
                         ),
@@ -220,13 +233,18 @@ class TestPageState extends State<TestPage>{
                           child: CustomCircleBtn(
                             onTap: () {
                               setState(() {
-                                btn = 5;
-                                changeMarked();
+                                if(btn == 5){
+                                  btn = 0;
+                                }
+                                else if(btn != 5){
+                                  btn = 5;
+                                }
                               });
+
                             },
                               bgColor: AppColors.purpleColor,
                               mRadius: 50,
-                              isOutlined: btn == 5 ? isOutlined_ : true,
+                              isOutlined: btn != 5 ? true : false,
 
                           ),
                         ),
@@ -254,13 +272,18 @@ class TestPageState extends State<TestPage>{
                           child: CustomCircleBtn(
                             onTap: () {
                               setState(() {
-                                btn = 6;
-                                changeMarked();
+                                if(btn == 6){
+                                  btn = 0;
+                                }
+                                else if(btn != 6){
+                                  btn = 6;
+                                }
                               });
+
                             },
                               bgColor: AppColors.purpleColor,
                               mRadius: 60,
-                              isOutlined: btn == 6 ? isOutlined_ : true,
+                              isOutlined: btn != 6 ? true : false,
 
                           ),
                         ),
@@ -288,13 +311,17 @@ class TestPageState extends State<TestPage>{
                           child: CustomCircleBtn(
                             onTap: () {
                               setState(() {
-                                btn = 7;
-                                changeMarked();
+                                if (btn == 7){
+                                  btn = 0;
+                                }
+                                else if (btn != 7){
+                                  btn = 7;
+                                }
                               });
                             },
                               bgColor: AppColors.purpleColor,
                               mRadius: 70,
-                              isOutlined: btn == 7 ? isOutlined_ : true,
+                              isOutlined: btn != 7 ? true : false,
 
                           ),
                         ),
@@ -377,6 +404,7 @@ class TestPageState extends State<TestPage>{
                             answer6 = 0;
                             txt = "W jakim stopniu uważasz się\nza osobę społeczną? 5";
                             clickCount--;
+                            btnNext = "Dalej";
                           });
                         }
                         btn = 0;
@@ -386,7 +414,7 @@ class TestPageState extends State<TestPage>{
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
                     child: CustomRoundedBtn(
-                      text: "Dalej",
+                      text: btnNext,
                       fontSize: 20,
                       mWidth: 160,
                       mHeight: 80,
@@ -435,6 +463,7 @@ class TestPageState extends State<TestPage>{
                             txt = "W jakim stopniu uważasz się\nza osobę społeczną? 6";
                             clickCount++;
                             btn = 0;
+                            btnNext = "Zakończ";
                           });
 
                         }
@@ -445,6 +474,7 @@ class TestPageState extends State<TestPage>{
                             Navigator.pushNamed(context, AppRoutes.menu_page);
                             clickCount++;
                             btn = 0;
+                            //txt = "Odp1: $answer1, Odp2: $answer2, Odp3: $answer3, Odp4: $answer4, Odp5: $answer5,  Odp6: $answer6, ";
                           });
 
                           Map<String, dynamic> dane = {
