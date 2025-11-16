@@ -23,7 +23,7 @@ class StartPage extends StatelessWidget {
                         "Test profilu psychologicznego",
                         style: TextStyle(
                             fontFamily: 'PatrickHand',
-                            color: AppColors.secondaryColor,
+                            color: AppColors.textColor,
                             fontSize: 28,
                             fontWeight: FontWeight.bold
                         )
@@ -45,7 +45,7 @@ class StartPage extends StatelessWidget {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontFamily: 'PatrickHand',
-                            color: AppColors.whiteColor,
+                            color: AppColors.textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.normal,
                           )
@@ -59,8 +59,8 @@ class StartPage extends StatelessWidget {
                 text: "Przejdź do testu",
                 fontSize: 20,
                 mWidth: 350,
-                textColor: AppColors.primaryColor,
-                bgColor: AppColors.secondaryColor,
+                textColor: AppColors.text2Color,
+                bgColor: AppColors.thirdColor,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.test_page);
@@ -71,9 +71,9 @@ class StartPage extends StatelessWidget {
                 text: "Zaloguj z Google",
                 fontSize: 20,
                 mIconPath: "assets/svg/Google_Favicon_2025.svg",
-                iconColor: AppColors.primaryColor,
+                iconColor: AppColors.text2Color,
                 mWidth: 350,
-                textColor: AppColors.primaryColor,
+                textColor: AppColors.text2Color,
                 bgColor: AppColors.secondaryColor,
                 onTap: () {
                   Navigator.pop(context);

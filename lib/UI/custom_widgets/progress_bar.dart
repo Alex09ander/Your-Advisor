@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:your_advisor/domain/app_colors.dart';
 
 class ProgressBar extends StatelessWidget {
 
@@ -19,7 +20,7 @@ class ProgressBar extends StatelessWidget {
             height: 20,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Colors.black45,
+              color: AppColors.informColor,
             ),
           ),
           Container(
@@ -27,7 +28,7 @@ class ProgressBar extends StatelessWidget {
             height: 20,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Colors.white70,
+              color: AppColors.secondaryColor,
             ),
           ),
         ],

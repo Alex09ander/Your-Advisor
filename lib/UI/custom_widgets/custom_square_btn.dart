@@ -38,6 +38,7 @@ class CustomSquareBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(30),
       onTap: onTap,
       child: Container(
         width: mWidth,
@@ -52,12 +53,19 @@ class CustomSquareBtn extends StatelessWidget {
         ),
         child: mIconPath != null ? Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
+
           child: Column(
               children: [
                 SizedBox(height: sBoxSize,),
-                SvgPicture.asset(mIconPath!, height: iconHeight, color: iconColor,),
+                Row(
+
+                  children: [
+                    Expanded(child: Text(text, textAlign: TextAlign.center, style: TextStyle(color: textColor, fontSize: fontSize, fontWeight: FontWeight.bold, ),)),
+                    SvgPicture.asset(mIconPath!, height: iconHeight, color: iconColor,),
+                  ],
+                ),
                 SizedBox(height: sBoxSize2,),
-                Expanded(child: Text(text, textAlign: TextAlign.center, style: TextStyle(color: textColor, fontSize: fontSize, fontWeight: FontWeight.bold, ),)),
+
               ]
           ),
         ) : Center(

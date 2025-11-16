@@ -28,6 +28,7 @@ class CustomCircleBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(360),
       child: Container(
         width: mRadius,
         height: mRadius,

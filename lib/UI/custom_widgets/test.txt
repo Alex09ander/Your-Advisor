@@ -1,0 +1,19 @@
+children: [
+                SizedBox(height: sBoxSize,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Expanded(child: Text(text, textAlign: TextAlign.center, style: TextStyle(color: textColor, fontSize: fontSize, fontWeight: FontWeight.bold, ),)),
+                        SizedBox(height: sBoxSize2,),
+                        Expanded(child: Text(text, textAlign: TextAlign.center, style: TextStyle(color: textColor, fontSize: fontSize-5, fontWeight: FontWeight.normal, ),)),
+                      ],
+                    ),
+                    SizedBox(width: 20,),
+                    SvgPicture.asset(mIconPath!, height: iconHeight, color: iconColor,),
+
+
+                  ],
+                )
+              ]

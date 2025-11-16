@@ -23,11 +23,11 @@ class MenuPage extends StatelessWidget {
               alignment: Alignment.center,
               child: SvgPicture.asset("assets/svg/Logo_test-removebg-preview.svg", width: 70,),
             ),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 50, 10, 0),
+                  padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                   child: CustomSquareBtn(
                     text: "Tryb\npsychologa",
                     iconHeight: 100,
@@ -37,14 +37,14 @@ class MenuPage extends StatelessWidget {
                     mIconPath: "assets/svg/Logo_test-removebg-preview.svg",
                     bgColor: AppColors.secondaryColor,
                     mHeight: 300,
-                    mWidth: 180,
+                    mWidth: 360,
                     onTap: () {
 
                     },
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                   child: CustomSquareBtn(
                     text: "Tryb\ndoradcy",
                     iconHeight: 100,
@@ -52,9 +52,9 @@ class MenuPage extends StatelessWidget {
                     sBoxSize: 50,
                     sBoxSize2: 20,
                     mIconPath: "assets/svg/Logo_test-removebg-preview.svg",
-                    bgColor: AppColors.secondaryColor,
+                    bgColor: AppColors.thirdColor,
                     mHeight: 300,
-                    mWidth: 180,
+                    mWidth: 360,
                     onTap: () {
 
                     },
@@ -64,47 +64,6 @@ class MenuPage extends StatelessWidget {
 
               ]
             ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 50, 10, 0),
-                    child: CustomSquareBtn(
-                      text: "Inny\ntryb",
-                      iconHeight: 100,
-                      fontSize: 30,
-                      sBoxSize: 50,
-                      sBoxSize2: 20,
-                      mIconPath: "assets/svg/Logo_test-removebg-preview.svg",
-                      bgColor: AppColors.secondaryColor,
-                      mHeight: 300,
-                      mWidth: 180,
-                      onTap: () {
-
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
-                    child: CustomSquareBtn(
-                      text: "Inny\ntryb",
-                      iconHeight: 100,
-                      fontSize: 30,
-                      sBoxSize: 50,
-                      sBoxSize2: 20,
-                      mIconPath: "assets/svg/Logo_test-removebg-preview.svg",
-                      bgColor: AppColors.secondaryColor,
-                      mHeight: 300,
-                      mWidth: 180,
-                      onTap: () {
-
-                      },
-                    ),
-                  )
-
-
-                ]
-            )
           ],
         ),
       ),
