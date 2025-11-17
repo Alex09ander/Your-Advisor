@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:your_advisor/UI/intro/splash.dart';
+import 'package:your_advisor/UI/theme/app_theme.dart';
+import 'package:your_advisor/UI/theme/flutter_theme_creator.dart';
 
 import '../domain/app_routes.dart';
 
@@ -10,16 +12,15 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final ThemeData flutterTheme = FlutterThemeCreator()
+        .createFlutterTheme(const AppTheme(isDark: false, accessibilityModeIsOn: false));
+
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: SplashPage(),
+      theme: flutterTheme,
+      home: const SplashPage(),
       routes: AppRoutes.getRoutes(),
       initialRoute: AppRoutes.splash_page,
     );

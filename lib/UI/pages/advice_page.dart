@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_m3shapes/flutter_m3shapes.dart';
+import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -125,13 +127,13 @@ class _AdvicePageState extends State<AdvicePage> {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: colors.primaryContainer.withOpacity(0.85),
+                color: colors.secondaryContainer,
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Icon(
-                Icons.auto_awesome_rounded,
+                Icons.psychology,
                 size: 18,
-                color: colors.onPrimaryContainer,
+                color: colors.onSecondaryContainer,
               ),
             ),
             const SizedBox(width: 10),
@@ -139,7 +141,7 @@ class _AdvicePageState extends State<AdvicePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Asystent Porady',
+                  'Twój asystent',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -176,12 +178,94 @@ class _AdvicePageState extends State<AdvicePage> {
                 },
               ),
             ),
+            if (_chipsVisible) ...[
+              AnimatedOpacity(
+                opacity: _chipsVisible ? 1 : 0,
+                duration: Durations.medium1,
+                curve: Curves.easeOut,
+                child: _buildSuggestionChips(context),
+              ),
+              const Gap(50),
+            ],
             const Divider(height: 1),
             _buildInputBar(context),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildSuggestionChips(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final chipFont = Theme.of(context).textTheme.labelLarge!;
+    final patrickHand =
+        chipFont.copyWith(fontFamily: 'PatrickHand', fontWeight: FontWeight.w500);
+
+    return Wrap(
+      spacing: 20,
+      runSpacing: 10,
+      children: [
+        ActionChip(
+          avatar: const Icon(Icons.bolt_outlined, size: 16),
+          label: Text(
+            'Czuję, że stoję w miejscu',
+            style: chipFont,
+          ),
+          onPressed: () => _sendChip(0),
+        ),
+        ActionChip(
+          avatar: const Icon(Icons.noise_control_off_outlined, size: 16),
+          label: Text(
+            'Jestem przebodźcowany',
+            style: chipFont,
+          ),
+          onPressed: () => _sendChip(1),
+        ),
+        ActionChip(
+          avatar: const Icon(Icons.psychology_alt_outlined, size: 16),
+          label: Text(
+            'Szukam książki rozwojowej',
+            style: chipFont,
+          ),
+          onPressed: () => _sendChip(2),
+        ),
+        ActionChip(
+          avatar: const Icon(Icons.speed_outlined, size: 16),
+          label: Text(
+            'Chciałbym uczyć się szybciej',
+            style: chipFont,
+          ),
+          onPressed: () => _sendChip(3),
+        ),
+        ActionChip(
+          avatar: const Icon(Icons.psychology_alt_outlined, size: 16),
+          label: Text(
+            'Zaskocz mnie ciekawym pojęciem psychologicznym',
+            style: chipFont,
+          ),
+          onPressed: () => _sendChip(4),
+        ),
+      ],
+    );
+  }
+
+  final _chipPrompts = {
+    0: 'Czuję, że się nie rozwijam, skąd wzięło się te uczucie? Chcę ruszyć dalej.',
+    1: 'Jestem przebodźcowany i czasem nie wiem, co się dzieje wokół mnie.. Potrzebuję wskazówki..',
+    2: 'Chcę przeczytać ciekawą książkę rozwojową. Czy znasz coś o nawykach lub zarządzaniu czasem?',
+    3: 'Chcę wyraźnie przyspieszyć proces nauki.',
+    4: 'Zaciekaw mnie jakimś pojęciem z psychologii; pokaż, jak wykorzystać to w praktyce.',
+  };
+
+  bool _chipsVisible = true;
+
+  Future<void> _sendChip(int key) async {
+    final mapped = _chipPrompts[key];
+    if (mapped == null) return;
+
+    setState(() => _chipsVisible = false);
+    _textController.text = mapped;
+    await _send();
   }
 
   Widget _buildInputBar(BuildContext context) {
@@ -204,7 +288,7 @@ class _AdvicePageState extends State<AdvicePage> {
                   hintText: 'Wyślij wiadomość...',
                   filled: true,
                   isDense: true,
-                  fillColor: colors.surfaceVariant.withOpacity(0.8),
+                  fillColor: colors.surfaceContainer,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 18,
                     vertical: 12,
@@ -217,19 +301,26 @@ class _AdvicePageState extends State<AdvicePage> {
               ),
             ),
             const SizedBox(width: 8),
-            FilledButton(
-              onPressed: _isSending ? null : _send,
-              style: FilledButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(12),
+            M3Container(
+              key: UniqueKey(),
+              Shapes.c7_sided_cookie,
+              height: 60,
+              width: 60,
+              clipBehavior: Clip.antiAlias,
+              child: FilledButton(
+                onPressed: _isSending ? null : _send,
+                style: FilledButton.styleFrom(
+                  // shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(12),
+                ),
+                child: _isSending
+                    ? const SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: CircularProgressIndicator(strokeWidth: 2.3),
+                      )
+                    : const Icon(Icons.send_rounded),
               ),
-              child: _isSending
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2.3),
-                    )
-                  : const Icon(Icons.send_rounded),
             ),
           ],
         ),
@@ -241,8 +332,8 @@ class _AdvicePageState extends State<AdvicePage> {
     final colors = Theme.of(context).colorScheme;
     final isUser = item.fromUser;
 
-    final bg = isUser ? colors.primaryContainer : colors.surfaceVariant;
-    final fg = isUser ? colors.onPrimaryContainer : colors.onSurfaceVariant;
+    final backgroundColor = isUser ? colors.primaryContainer : colors.surfaceContainerLow;
+    final textColor = isUser ? colors.onPrimaryContainer : colors.onSurfaceVariant;
 
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
@@ -268,7 +359,7 @@ class _AdvicePageState extends State<AdvicePage> {
           },
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: bg,
+              color: backgroundColor,
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(20),
                 topRight: const Radius.circular(20),
@@ -283,7 +374,7 @@ class _AdvicePageState extends State<AdvicePage> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
-                    ?.copyWith(color: fg, height: 1.35),
+                    ?.copyWith(color: textColor, height: 1.35),
               ),
             ),
           ),
@@ -296,8 +387,8 @@ class _AdvicePageState extends State<AdvicePage> {
     final colors = Theme.of(context).colorScheme;
     final advice = item.advice;
 
-    final bg = colors.tertiaryContainer;
-    final fg = colors.onTertiaryContainer;
+    final backgroundColor = colors.surfaceContainerLow;
+    final textColor = colors.onSurfaceVariant;
     final label = _adviceKindLabel(advice.kind);
 
     return Align(
@@ -318,7 +409,7 @@ class _AdvicePageState extends State<AdvicePage> {
             );
           },
           child: Card(
-            color: bg,
+            color: backgroundColor,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -335,13 +426,13 @@ class _AdvicePageState extends State<AdvicePage> {
                       Icon(
                         Icons.lightbulb_rounded,
                         size: 18,
-                        color: fg.withOpacity(0.95),
+                        color: textColor.withOpacity(0.95),
                       ),
                       const SizedBox(width: 6),
                       Text(
                         label,
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: fg.withOpacity(0.9),
+                              color: textColor.withOpacity(0.9),
                               letterSpacing: 0.3,
                             ),
                       ),
@@ -351,7 +442,7 @@ class _AdvicePageState extends State<AdvicePage> {
                   Text(
                     advice.name,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: fg,
+                          color: textColor,
                           fontWeight: FontWeight.w600,
                         ),
                   ),
@@ -360,7 +451,7 @@ class _AdvicePageState extends State<AdvicePage> {
                     Text(
                       advice.author!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: fg.withOpacity(0.9),
+                            color: textColor.withOpacity(0.9),
                           ),
                     ),
                   ],
@@ -368,8 +459,8 @@ class _AdvicePageState extends State<AdvicePage> {
                   if (advice.linkUrl != null && advice.linkUrl!.trim().isNotEmpty)
                     FilledButton.tonal(
                       style: FilledButton.styleFrom(
-                        backgroundColor: fg,
-                        foregroundColor: bg,
+                        backgroundColor: textColor,
+                        foregroundColor: backgroundColor,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 8,
@@ -378,7 +469,7 @@ class _AdvicePageState extends State<AdvicePage> {
                         minimumSize: const Size(0, 0),
                       ),
                       onPressed: () => _openAdviceLink(advice.linkUrl!),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: const [
                           Icon(Icons.open_in_new_rounded, size: 16),

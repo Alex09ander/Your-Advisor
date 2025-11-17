@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:your_advisor/UI/custom_widgets/custom_rounded_btn.dart';
 import 'package:your_advisor/domain/app_routes.dart';
 
@@ -8,83 +9,73 @@ import '../../domain/app_colors.dart';
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
-      body: Center (
-        child: Column(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
             children: [
               Center(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    child: Text(
-                        "Test profilu psychologicznego",
-                        style: TextStyle(
-                            fontFamily: 'PatrickHand',
-                            color: AppColors.textColor,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold
-                        )
-                    ),
-                  )
+                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: Text(
+                  "Poznajmy się!",
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+              )),
+              const Spacer(),
+              Image.asset(
+                "assets/icon/quiz.png",
+                height: 220,
+                fit: BoxFit.fitHeight,
               ),
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 1000,
-                    height: 600,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(15, 30, 15, 0),
-                      child: Text(
-                          "Ten test polega na ocenie zdolności poznawczych (takich jak pamięć, uwaga, myślenie logiczne) poprzez rozwiązanie serii zadań o rosnącym stopniu trudności.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontFamily: 'PatrickHand',
-                            color: AppColors.textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                          )
-                      ),
-                    ),
-
-                  )
-                ],
+              Gap(20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 65),
+                child: Text(
+                    "Poprosimy Cię o wypełnienie testu psychologicznego. Dzięki temu poznamy Twoje mocne i słabe strony. Test nie powinien zająć dłużej niż 10 minut.",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium!),
               ),
+              const Gap(15),
+              const Spacer(),
               CustomRoundedBtn(
-                text: "Przejdź do testu",
+                text: "Rozpocznij",
                 fontSize: 20,
                 mWidth: 350,
-                textColor: AppColors.text2Color,
-                bgColor: AppColors.thirdColor,
+                // textColor: AppColors.text2Color,
+                // bgColor: AppColors.thirdColor,
+                bgColor: Theme.of(context).colorScheme.primary,
+                textColor: Theme.of(context).colorScheme.onPrimary,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.test_page);
                 },
               ),
-              SizedBox(height: 20,),
+              Gap(20),
               CustomRoundedBtn(
                 text: "Zaloguj z Google",
                 fontSize: 20,
                 mIconPath: "assets/svg/Google_Favicon_2025.svg",
                 iconColor: AppColors.text2Color,
                 mWidth: 350,
-                textColor: AppColors.text2Color,
-                bgColor: AppColors.secondaryColor,
+                // textColor: AppColors.text2Color,
+                // bgColor: AppColors.secondaryColor,
+                bgColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                textColor: Theme.of(context).colorScheme.onSurface,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.test_page);
                 },
               ),
+              Gap(40),
             ],
-
+          ),
         ),
       ),
-
     );
   }
 }

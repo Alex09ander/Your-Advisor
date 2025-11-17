@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:your_advisor/domain/app_colors.dart';
 
 class ProgressBar extends StatelessWidget {
-
   double progress;
 
   ProgressBar({
-    this.progress=50,
+    this.progress = 50,
   });
 
   @override
