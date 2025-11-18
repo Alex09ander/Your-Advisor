@@ -1,9 +1,7 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:your_advisor/UI/custom_widgets/custom_square_btn.dart';
+import 'package:gap/gap.dart';
+import 'package:your_advisor/UI/custom_widgets/main_page/main_button.dart';
 import 'package:your_advisor/domain/app_colors.dart';
 
 class MenuPage extends StatelessWidget {
@@ -26,40 +24,30 @@ class MenuPage extends StatelessWidget {
                 width: 70,
               ),
             ),
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: CustomSquareBtn(
-                  text: "Tryb\npsychologa",
-                  iconHeight: 100,
-                  fontSize: 30,
-                  sBoxSize: 50,
-                  sBoxSize2: 20,
-                  mIconPath: "assets/svg/Logo_test-removebg-preview.svg",
-                  bgColor: AppColors.secondaryColor,
-                  mHeight: 300,
-                  mWidth: 360,
-                  onTap: () {
-                    Navigator.pushNamed(context, "/advice");
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: CustomSquareBtn(
-                  text: "Tryb\ndoradcy",
-                  iconHeight: 100,
-                  fontSize: 30,
-                  sBoxSize: 50,
-                  sBoxSize2: 20,
-                  mIconPath: "assets/svg/Logo_test-removebg-preview.svg",
-                  bgColor: AppColors.thirdColor,
-                  mHeight: 300,
-                  mWidth: 360,
-                  onTap: () {},
-                ),
-              )
-            ]),
+            Gap(50),
+            MainButton(
+              titleText: "Otrzymaj wsparcie",
+              contentText:
+                  "Męczy Cię jakaś sprawa? Czujesz się przytłoczony? Zagubiłeś się i chcesz o tym pogadać? Nasz Asystent jest do Twojej dyspozycji.",
+              assetImagePath: "assets/icon/psychology.png",
+              onPressed: () {
+                Navigator.of(context).pushNamed('/advice');
+              },
+            ),
+            // Divider(
+            //   height: 30,
+            //   thickness: 2,
+            // ),
+            Gap(60),
+            MainButton(
+              titleText: "Znajdź wymarzony zawód",
+              contentText:
+                  "Czujesz, że stoisz w tyle? Boisz się o pracę po studiach? Twój wybór okazał się nietrafiony? Nasz Asystent odnajdzie zawód pasujący do Twojej osobowości.",
+              assetImagePath: "assets/icon/goal.png",
+              onPressed: () {
+                Navigator.of(context).pushNamed('/advice');
+              },
+            ),
           ],
         ),
       ),

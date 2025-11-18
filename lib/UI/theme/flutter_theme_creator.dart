@@ -197,7 +197,7 @@ class FlutterThemeCreator {
       headlineLarge: TextStyle(
         fontFamily: fontFamily,
         fontSize: 32,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         color: textColor,
       ),
       headlineMedium: TextStyle(
@@ -209,13 +209,13 @@ class FlutterThemeCreator {
       headlineSmall: TextStyle(
         fontFamily: fontFamily,
         fontSize: 24,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         color: textColor,
       ),
       titleLarge: TextStyle(
         fontFamily: fontFamily,
         fontSize: 22,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         color: textColor,
       ),
       titleMedium: TextStyle(

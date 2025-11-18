@@ -37,6 +37,7 @@ class _AdvicePageState extends State<AdvicePage> {
       _items.add(_ChatTextItem(fromUser: true, text: text));
       _textController.clear();
       _isSending = true;
+      _chipsVisible = false;
       _items.add(const _ChatTypingItem());
     });
     _scrollToBottom();
@@ -178,15 +179,18 @@ class _AdvicePageState extends State<AdvicePage> {
                 },
               ),
             ),
-            if (_chipsVisible) ...[
-              AnimatedOpacity(
-                opacity: _chipsVisible ? 1 : 0,
-                duration: Durations.medium1,
-                curve: Curves.easeOut,
-                child: _buildSuggestionChips(context),
-              ),
-              const Gap(50),
-            ],
+            AnimatedSize(
+              duration: Durations.medium1,
+              curve: Curves.easeOut,
+              child: _chipsVisible
+                  ? Column(
+                      children: [
+                        _buildSuggestionChips(context),
+                        const Gap(50),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ),
             const Divider(height: 1),
             _buildInputBar(context),
           ],
@@ -197,13 +201,13 @@ class _AdvicePageState extends State<AdvicePage> {
 
   Widget _buildSuggestionChips(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final chipFont = Theme.of(context).textTheme.labelLarge!;
+    final chipFont = Theme.of(context).textTheme.labelMedium!;
     final patrickHand =
         chipFont.copyWith(fontFamily: 'PatrickHand', fontWeight: FontWeight.w500);
 
     return Wrap(
-      spacing: 20,
-      runSpacing: 10,
+      spacing: 15,
+      runSpacing: 3,
       children: [
         ActionChip(
           avatar: const Icon(Icons.bolt_outlined, size: 16),
@@ -263,7 +267,6 @@ class _AdvicePageState extends State<AdvicePage> {
     final mapped = _chipPrompts[key];
     if (mapped == null) return;
 
-    setState(() => _chipsVisible = false);
     _textController.text = mapped;
     await _send();
   }

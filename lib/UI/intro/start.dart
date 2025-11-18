@@ -18,14 +18,13 @@ class StartPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             children: [
+              Gap(80),
               Center(
-                  child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Text(
                   "Poznajmy się!",
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
-              )),
+              ),
               const Spacer(),
               Image.asset(
                 "assets/icon/quiz.png",
@@ -34,10 +33,10 @@ class StartPage extends StatelessWidget {
               ),
               Gap(20),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 65),
+                padding: EdgeInsets.symmetric(horizontal: 50),
                 child: Text(
                     "Poprosimy Cię o wypełnienie testu psychologicznego. Dzięki temu poznamy Twoje mocne i słabe strony. Test nie powinien zająć dłużej niż 10 minut.",
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyMedium!),
               ),
               const Gap(15),
