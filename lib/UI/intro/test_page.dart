@@ -14,27 +14,33 @@ class TestPage extends StatefulWidget {
 }
 
 class TestPageState extends State<TestPage> {
-  String txt = "W jakim stopniu uważasz się\nza osobę społeczną?";
+  final myController = TextEditingController();
+
+  String txt = "Pasuje mi bycie w centrum zainteresowania";
   String btnNext = "Dalej";
-  double btn = 0;
-  double clickCount = 0;
-  double answer1 = 0;
-  double answer2 = 0;
-  double answer3 = 0;
-  double answer4 = 0;
-  double answer5 = 0;
-  double answer6 = 0;
-
-  TestPageState({
-    this.answer1 = 0,
-    this.answer2 = 0,
-    this.answer3 = 0,
-    this.answer4 = 0,
-    this.answer5 = 0,
-    this.answer6 = 0,
-  });
-
-  get file => null;
+  int btn = 0;
+  int clickCount = 0;
+  int answer1 = 0;
+  int answer2 = 0;
+  int answer3 = 0;
+  int answer4 = 0;
+  int answer5 = 0;
+  int answer6 = 0;
+  int answer7 = 0;
+  int answer8 = 0;
+  int answer9 = 0;
+  int answer10 = 0;
+  int answer11 = 0;
+  int answer12 = 0;
+  int answer13 = 0;
+  int answer14 = 0;
+  int answer15 = 0;
+  int answer16 = 0;
+  int answer17 = 0;
+  String answer18 = "";
+  String answer19 = "";
+  String answer20 = "";
+  String answer21 = "";
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +53,7 @@ class TestPageState extends State<TestPage> {
               height: 50,
             ),
             ProgressBar(
-              progress: (clickCount / 6) * 350,
+              progress: (clickCount / 20) * 350,
             ),
             SizedBox(
               height: 30,
@@ -65,247 +71,255 @@ class TestPageState extends State<TestPage> {
             SizedBox(
               height: 20,
             ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  child: Column(
-                    children: [
-                      Row(
+            clickCount < 17
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: Column(
                         children: [
-                          CustomCircleBtn(
-                            onTap: () {
-                              setState(() {
-                                if (btn == 1) {
-                                  btn = 0;
-                                } else if (btn != 1) {
-                                  btn = 1;
-                                }
-                              });
-                            },
-                            bgColor: AppColors.greenColor,
-                            mRadius: 70,
-                            isOutlined: btn != 1 ? true : false,
+                          Row(
+                            children: [
+                              CustomCircleBtn(
+                                onTap: () {
+                                  setState(() {
+                                    if (btn == 1) {
+                                      btn = 0;
+                                    } else if (btn != 1) {
+                                      btn = 1;
+                                    }
+                                  });
+                                },
+                                bgColor: AppColors.greenColor,
+                                mRadius: 70,
+                                isOutlined: btn != 1 ? true : false,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                                child: Text("Zdecydowanie się zgadzam",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-                            child: Text("Zdecydowanie się zgadzam",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                child: CustomCircleBtn(
+                                  onTap: () {
+                                    setState(() {
+                                      if (btn == 2) {
+                                        btn = 0;
+                                      } else if (btn != 2) {
+                                        btn = 2;
+                                      }
+                                    });
+                                  },
+                                  bgColor: AppColors.greenColor,
+                                  mRadius: 60,
+                                  isOutlined: btn != 2 ? true : false,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(75, 0, 0, 0),
+                                child: Text("Zgadzam się",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: CustomCircleBtn(
+                                  onTap: () {
+                                    setState(() {
+                                      if (btn == 3) {
+                                        btn = 0;
+                                      } else if (btn != 3) {
+                                        btn = 3;
+                                      }
+                                    });
+                                  },
+                                  bgColor: AppColors.greenColor,
+                                  mRadius: 50,
+                                  isOutlined: btn != 3 ? true : false,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(80, 0, 0, 0),
+                                child: Text("Trochę się zgadzam",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: CustomCircleBtn(
+                                  onTap: () {
+                                    setState(() {
+                                      if (btn == 4) {
+                                        btn = 0;
+                                      } else if (btn != 4) {
+                                        btn = 4;
+                                      }
+                                    });
+                                  },
+                                  bgColor: AppColors.greyColor,
+                                  mRadius: 40,
+                                  isOutlined: btn != 4 ? true : false,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(85, 0, 0, 0),
+                                child: Text("Nie mam zdania",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: CustomCircleBtn(
+                                  onTap: () {
+                                    setState(() {
+                                      if (btn == 5) {
+                                        btn = 0;
+                                      } else if (btn != 5) {
+                                        btn = 5;
+                                      }
+                                    });
+                                  },
+                                  bgColor: AppColors.purpleColor,
+                                  mRadius: 50,
+                                  isOutlined: btn != 5 ? true : false,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(80, 0, 0, 0),
+                                child: Text("Trochę się nie zgadzam",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                child: CustomCircleBtn(
+                                  onTap: () {
+                                    setState(() {
+                                      if (btn == 6) {
+                                        btn = 0;
+                                      } else if (btn != 6) {
+                                        btn = 6;
+                                      }
+                                    });
+                                  },
+                                  bgColor: AppColors.purpleColor,
+                                  mRadius: 60,
+                                  isOutlined: btn != 6 ? true : false,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(75, 0, 0, 0),
+                                child: Text("Nie zgadzam się",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: CustomCircleBtn(
+                                  onTap: () {
+                                    setState(() {
+                                      if (btn == 7) {
+                                        btn = 0;
+                                      } else if (btn != 7) {
+                                        btn = 7;
+                                      }
+                                    });
+                                  },
+                                  bgColor: AppColors.purpleColor,
+                                  mRadius: 70,
+                                  isOutlined: btn != 7 ? true : false,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                                child: Text("Zdecydowanie się nie zgadzam",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontFamily: 'PatrickHand',
+                                        color: AppColors.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            ],
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                            child: CustomCircleBtn(
-                              onTap: () {
-                                setState(() {
-                                  if (btn == 2) {
-                                    btn = 0;
-                                  } else if (btn != 2) {
-                                    btn = 2;
-                                  }
-                                });
-                              },
-                              bgColor: AppColors.greenColor,
-                              mRadius: 60,
-                              isOutlined: btn != 2 ? true : false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(75, 0, 0, 0),
-                            child: Text("Zgadzam się",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                            child: CustomCircleBtn(
-                              onTap: () {
-                                setState(() {
-                                  if (btn == 3) {
-                                    btn = 0;
-                                  } else if (btn != 3) {
-                                    btn = 3;
-                                  }
-                                });
-                              },
-                              bgColor: AppColors.greenColor,
-                              mRadius: 50,
-                              isOutlined: btn != 3 ? true : false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(80, 0, 0, 0),
-                            child: Text("Trochę się zgadzam",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                            child: CustomCircleBtn(
-                              onTap: () {
-                                setState(() {
-                                  if (btn == 4) {
-                                    btn = 0;
-                                  } else if (btn != 4) {
-                                    btn = 4;
-                                  }
-                                });
-                              },
-                              bgColor: AppColors.greyColor,
-                              mRadius: 40,
-                              isOutlined: btn != 4 ? true : false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(85, 0, 0, 0),
-                            child: Text("Nie mam zdania",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                            child: CustomCircleBtn(
-                              onTap: () {
-                                setState(() {
-                                  if (btn == 5) {
-                                    btn = 0;
-                                  } else if (btn != 5) {
-                                    btn = 5;
-                                  }
-                                });
-                              },
-                              bgColor: AppColors.purpleColor,
-                              mRadius: 50,
-                              isOutlined: btn != 5 ? true : false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(80, 0, 0, 0),
-                            child: Text("Trochę się nie zgadzam",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                            child: CustomCircleBtn(
-                              onTap: () {
-                                setState(() {
-                                  if (btn == 6) {
-                                    btn = 0;
-                                  } else if (btn != 6) {
-                                    btn = 6;
-                                  }
-                                });
-                              },
-                              bgColor: AppColors.purpleColor,
-                              mRadius: 60,
-                              isOutlined: btn != 6 ? true : false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(75, 0, 0, 0),
-                            child: Text("Nie zgadzam się",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: CustomCircleBtn(
-                              onTap: () {
-                                setState(() {
-                                  if (btn == 7) {
-                                    btn = 0;
-                                  } else if (btn != 7) {
-                                    btn = 7;
-                                  }
-                                });
-                              },
-                              bgColor: AppColors.purpleColor,
-                              mRadius: 70,
-                              isOutlined: btn != 7 ? true : false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-                            child: Text("Zdecydowanie się nie zgadzam",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: 'PatrickHand',
-                                    color: AppColors.textColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)),
-                          )
-                        ],
-                      ),
-                    ],
+                    ))
+                : Center(
+                    child: TextField(
+                      controller: myController,
+                      decoration: const InputDecoration(
+                          labelText: "Wprowadź odpowiedź"),
+                    ),
                   ),
-                )),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -322,49 +336,141 @@ class TestPageState extends State<TestPage> {
                       onTap: () {
                         if (clickCount == 0) {
                           setState(() {
-                            answer1 = 0;
                             Navigator.pop(context);
                             Navigator.pushNamed(context, AppRoutes.start_page);
+                          });
+                        }
+                        else if (clickCount == 1) {
+                          setState(() {
+                            answer1 = 0;
+                            txt = "Pasuje mi bycie w centrum zainteresowania";
                             clickCount--;
                           });
-                        } else if (clickCount == 1) {
+                        }
+                        else if (clickCount == 2) {
                           setState(() {
                             answer2 = 0;
-                            txt =
-                                "W jakim stopniu uważasz się\nza osobę społeczną?";
-                            clickCount--;
-                          });
-                        } else if (clickCount == 2) {
-                          setState(() {
-                            answer3 = 0;
-                            txt =
-                                "W jakim stopniu uważasz się\nza osobę społeczną? 2";
+                            txt = "Łatwo dogaduje się z nowymi osobami";
                             clickCount--;
                           });
                         } else if (clickCount == 3) {
                           setState(() {
-                            answer4 = 0;
+                            answer3 = 0;
                             txt =
-                                "W jakim stopniu uważasz się\nza osobę społeczną? 3";
+                            "Muszę zaplanować pracę przed jej rozpoczęciem";
                             clickCount--;
                           });
                         } else if (clickCount == 4) {
                           setState(() {
-                            answer5 = 0;
-                            txt =
-                                "W jakim stopniu uważasz się\nza osobę społeczną? 4";
+                            answer4 = 0;
+                            txt = "Mam problem z dotrzymywaniem terminów";
                             clickCount--;
                           });
                         } else if (clickCount == 5) {
                           setState(() {
-                            answer6 = 0;
+                            answer5 = 0;
                             txt =
-                                "W jakim stopniu uważasz się\nza osobę społeczną? 5";
+                            "W sporze ważniejsze są uczucia, niż dotarcie do prawdy";
                             clickCount--;
-                            btnNext = "Dalej";
+                          });
+                        } else if (clickCount == 6) {
+                          setState(() {
+                            answer6 = 0;
+                            txt = "Jestem bezkompromisowy i walczę o swoje";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 7) {
+                          setState(() {
+                            answer7 = 0;
+                            txt = "Miewam częste wahania nastroju";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 8) {
+                          setState(() {
+                            answer8 = 0;
+                            txt = "Dobrze radzę sobie z emocjami";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 9) {
+                          setState(() {
+                            answer9 = 0;
+                            txt = "Nie mam problemu z uzależnieniami";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 10) {
+                          setState(() {
+                            answer10 = 0;
+                            txt = "Lubię nieszablonowe rozwiązania";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 11) {
+                          setState(() {
+                            answer11 = 0;
+                            txt = "Mam predyspozycje do bycia artystą";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 12) {
+                          setState(() {
+                            answer12 = 0;
+                            txt =
+                            "Swoje działania kieruję rozumem i logicznym myśleniem, bardziej niż emocjami";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 13) {
+                          setState(() {
+                            answer13 = 0;
+                            txt =
+                            "Jestem w stanie w coś uwierzyć, dając się swoim emocjom";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 14) {
+                          setState(() {
+                            answer14 = 0;
+                            txt = "Trudno mi utrzymać uwagę na jednej rzeczy";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 15) {
+                          setState(() {
+                            answer15 = 0;
+                            txt = "Często zmieniam kierunek działania";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 16) {
+                          setState(() {
+                            answer16 = 0;
+                            txt = "Grupa często widzi we mnie lidera";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 17) {
+                          setState(() {
+                            answer17 = 0;
+                            txt =
+                            "Uważam że byłbym dobrym dyrektorem albo przywódcą politycznym";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 18) {
+                          setState(() {
+                            answer18 = "";
+                            txt = "Czego brakuje ci do pełni szczęścia?";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 19) {
+                          setState(() {
+                            answer19 = "";
+                            clickCount--;
+                            txt =
+                            "Jaki byłby twój wymarzony partner życiowy?";
+                          });
+                        } else if (clickCount == 20) {
+                          setState(() {
+                            answer20 = "";
+                            clickCount--;
+                            txt =
+                            "Jaki byłby Twój wymarzony dzień?";
                           });
                         }
                         btn = 0;
+                        myController.text = "";
                       },
                     ),
                   ),
@@ -381,8 +487,7 @@ class TestPageState extends State<TestPage> {
                           if (clickCount == 0 && btn != 0) {
                             setState(() {
                               answer1 = btn;
-                              txt =
-                                  "W jakim stopniu uważasz się\nza osobę społeczną? 2";
+                              txt = "Łatwo dogaduje się z nowymi osobami";
                               clickCount++;
                               btn = 0;
                             });
@@ -390,15 +495,14 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer2 = btn;
                               txt =
-                                  "W jakim stopniu uważasz się\nza osobę społeczną? 3";
+                                  "Muszę zaplanować pracę przed jej rozpoczęciem";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 2 && btn != 0) {
                             setState(() {
                               answer3 = btn;
-                              txt =
-                                  "W jakim stopniu uważasz się\nza osobę społeczną? 4";
+                              txt = "Mam problem z dotrzymywaniem terminów";
                               clickCount++;
                               btn = 0;
                             });
@@ -406,53 +510,160 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer4 = btn;
                               txt =
-                                  "W jakim stopniu uważasz się\nza osobę społeczną? 5";
+                                  "W sporze ważniejsze są uczucia, niż dotarcie do prawdy";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 4 && btn != 0) {
                             setState(() {
                               answer5 = btn;
-                              txt =
-                                  "W jakim stopniu uważasz się\nza osobę społeczną? 6";
+                              txt = "Jestem bezkompromisowy i walczę o swoje";
                               clickCount++;
                               btn = 0;
-                              btnNext = "Zakończ";
                             });
                           } else if (clickCount == 5 && btn != 0) {
                             setState(() {
                               answer6 = btn;
+                              txt = "Miewam częste wahania nastroju";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 6 && btn != 0) {
+                            setState(() {
+                              answer7 = btn;
+                              txt = "Dobrze radzę sobie z emocjami";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 7 && btn != 0) {
+                            setState(() {
+                              answer8 = btn;
+                              txt = "Nie mam problemu z uzależnieniami";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 8 && btn != 0) {
+                            setState(() {
+                              answer9 = btn;
+                              txt = "Lubię nieszablonowe rozwiązania";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 9 && btn != 0) {
+                            setState(() {
+                              answer10 = btn;
+                              txt = "Mam predyspozycje do bycia artystą";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 10 && btn != 0) {
+                            setState(() {
+                              answer11 = btn;
+                              txt =
+                                  "Swoje działania kieruję rozumem i logicznym myśleniem, bardziej niż emocjami";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 11 && btn != 0) {
+                            setState(() {
+                              answer12 = btn;
+                              txt =
+                                  "Jestem w stanie w coś uwierzyć, dając się swoim emocjom";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 12 && btn != 0) {
+                            setState(() {
+                              answer13 = btn;
+                              txt = "Trudno mi utrzymać uwagę na jednej rzeczy";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 13 && btn != 0) {
+                            setState(() {
+                              answer14 = btn;
+                              txt = "Często zmieniam kierunek działania";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 14 && btn != 0) {
+                            setState(() {
+                              answer15 = btn;
+                              txt = "Grupa często widzi we mnie lidera";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 15 && btn != 0) {
+                            setState(() {
+                              answer16 = btn;
+                              txt =
+                                  "Uważam że byłbym dobrym dyrektorem albo przywódcą politycznym";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 16 && btn != 0) {
+                            setState(() {
+                              answer17 = btn;
+                              txt = "Czego brakuje ci do pełni szczęścia?";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 17 && myController.text != "") {
+                            setState(() {
+                              answer18 = myController.text;
+                              clickCount++;
+                              txt =
+                                  "Jaki byłby twój wymarzony partner życiowy?";
+                              myController.text = "";
+                            });
+                            } else if (clickCount == 18 && myController.text != "") {
+                            setState(() {
+                              answer19 = myController.text;
+                              clickCount++;
+                              txt =
+                                  "Jaki byłby Twój wymarzony dzień?";
+                              myController.text = "";
+                            });
+
+                            } else if (clickCount == 19 && myController.text != "") {
+                            setState(() {
+                              answer20 = myController.text;
+                              clickCount++;
+                              txt =
+                                  "Czego w życiu najbardziej się boisz?";
+                              myController.text = "";
+                              btnNext = "Zakończ";
+                            });
+
+                            } else if (clickCount == 20 && myController.text != "") {
+                            setState(() {
+                              answer21 = myController.text;
                               Navigator.pop(context);
                               Navigator.pushNamed(context, AppRoutes.menu_page);
                               clickCount++;
-                              btn = 0;
-                              //txt = "Odp1: $answer1, Odp2: $answer2, Odp3: $answer3, Odp4: $answer4, Odp5: $answer5,  Odp6: $answer6, ";
+                              myController.text = "";
+                              //txt =
+                              //    "Txt: $answer18, $answer19, $answer20, $answer21";
                             });
 
-                            Map<String, dynamic> dane = {
-                              'Pytanie': {
-                                'Pytanie 1',
-                                'Pytanie 2',
-                                'Pytanie 3',
-                                'Pytanie 4',
-                                'Pytanie 5',
-                                'Pytanie 6'
-                              },
-                              'Odpowiedź': {
-                                answer1,
-                                answer2,
-                                answer3,
-                                answer4,
-                                answer5,
-                                answer6
-                              },
-                            };
-
-                            String jsonString = jsonEncode(
-                                dane); // Konwertuj mapę na String JSON
-
-                            await file.writeAsString(
-                                jsonString); // Zapisz JSON do pliku
+                            //Map<String, dynamic> dane = {
+                            //  'Pytanie': {
+                            //    'Pytanie 1',
+                            //    'Pytanie 2',
+                            //    'Pytanie 3',
+                            //    'Pytanie 4',
+                            //    'Pytanie 5',
+                            //    'Pytanie 6'
+                            //  },
+                            //  'Odpowiedź': {
+                            //    answer1,
+                            //    answer2,
+                            //    answer3,
+                            //    answer4,
+                            //    answer5,
+                            //    answer6
+                            //  },
+                            //};
                           }
                         }),
                   ),
