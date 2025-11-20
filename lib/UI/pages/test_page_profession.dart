@@ -8,15 +8,15 @@ import 'package:your_advisor/domain/app_colors.dart';
 import '../../domain/app_routes.dart';
 import '../custom_widgets/custom_rounded_btn.dart';
 
-class TestPage extends StatefulWidget {
+class TestPageProfession extends StatefulWidget {
   @override
-  State<TestPage> createState() => TestPageState();
+  State<TestPageProfession> createState() => TestPageState();
 }
 
-class TestPageState extends State<TestPage> {
+class TestPageState extends State<TestPageProfession> {
   final myController = TextEditingController();
 
-  String txt = "Pasuje mi bycie w centrum zainteresowania";
+  String txt = "Dobrze odnajduję się w pracy grupowej";
   String btnNext = "Dalej";
   int btn = 0;
   int clickCount = 0;
@@ -37,10 +37,17 @@ class TestPageState extends State<TestPage> {
   int answer15 = 0;
   int answer16 = 0;
   int answer17 = 0;
-  String answer18 = "";
-  String answer19 = "";
-  String answer20 = "";
-  String answer21 = "";
+  int answer18 = 0;
+  int answer19 = 0;
+  int answer20 = 0;
+  int answer21 = 0;
+  int answer22 = 0;
+  int answer23 = 0;
+
+  String answer24 = "";
+  String answer25 = "";
+  String answer26 = "";
+  String answer27 = "";
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +60,7 @@ class TestPageState extends State<TestPage> {
               height: 50,
             ),
             ProgressBar(
-              progress: (clickCount / 20) * 350,
+              progress: (clickCount / 26) * 350,
             ),
             SizedBox(
               height: 30,
@@ -71,7 +78,7 @@ class TestPageState extends State<TestPage> {
             SizedBox(
               height: 20,
             ),
-            clickCount < 17
+            clickCount < 23
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -337,136 +344,178 @@ class TestPageState extends State<TestPage> {
                         if (clickCount == 0) {
                           setState(() {
                             Navigator.pop(context);
-                            Navigator.pushNamed(context, AppRoutes.start_page);
+                            Navigator.pushNamed(context, AppRoutes.menu_page);
                           });
                         }
                         else if (clickCount == 1) {
                           setState(() {
                             answer1 = 0;
-                            txt = "Pasuje mi bycie w centrum zainteresowania";
+                            txt = "Dobrze odnajduję się w pracy grupowej";
                             clickCount--;
                           });
                         }
                         else if (clickCount == 2) {
                           setState(() {
                             answer2 = 0;
-                            txt = "Łatwo dogaduje się z nowymi osobami";
+                            txt = "Efektywniej pracuję, jeśli jestem sam";
                             clickCount--;
                           });
                         } else if (clickCount == 3) {
                           setState(() {
                             answer3 = 0;
                             txt =
-                            "Muszę zaplanować pracę przed jej rozpoczęciem";
+                            "Lubię wykonywać drobne naprawy lub inne prace manualne";
                             clickCount--;
                           });
                         } else if (clickCount == 4) {
                           setState(() {
                             answer4 = 0;
-                            txt = "Mam problem z dotrzymywaniem terminów";
+                            txt = "Lubię/lubiłem pisać rozprawki lub prace naukowe";
                             clickCount--;
                           });
                         } else if (clickCount == 5) {
                           setState(() {
                             answer5 = 0;
                             txt =
-                            "W sporze ważniejsze są uczucia, niż dotarcie do prawdy";
+                            "Jestem zaawansowany w ogólnej obsłudze komputera";
                             clickCount--;
                           });
                         } else if (clickCount == 6) {
                           setState(() {
                             answer6 = 0;
-                            txt = "Jestem bezkompromisowy i walczę o swoje";
+                            txt = "Mam wyczucie estetyki";
                             clickCount--;
                           });
                         } else if (clickCount == 7) {
                           setState(() {
                             answer7 = 0;
-                            txt = "Miewam częste wahania nastroju";
+                            txt = "Lubię wyrażać swoją opinię";
                             clickCount--;
                           });
                         } else if (clickCount == 8) {
                           setState(() {
                             answer8 = 0;
-                            txt = "Dobrze radzę sobie z emocjami";
+                            txt = "Regularnie obcuję ze sztuką";
                             clickCount--;
                           });
                         } else if (clickCount == 9) {
                           setState(() {
                             answer9 = 0;
-                            txt = "Nie mam problemu z uzależnieniami";
+                            txt = "Umiem myśleć algorytmicznie";
                             clickCount--;
                           });
                         } else if (clickCount == 10) {
                           setState(() {
                             answer10 = 0;
-                            txt = "Lubię nieszablonowe rozwiązania";
+                            txt = "Lubię rozwiązywać złożone problemy";
                             clickCount--;
                           });
                         } else if (clickCount == 11) {
                           setState(() {
                             answer11 = 0;
-                            txt = "Mam predyspozycje do bycia artystą";
+                            txt = "Chcę tworzyć coś dla innych użytkowników";
                             clickCount--;
                           });
                         } else if (clickCount == 12) {
                           setState(() {
                             answer12 = 0;
                             txt =
-                            "Swoje działania kieruję rozumem i logicznym myśleniem, bardziej niż emocjami";
+                            "Szybko uczę się języków obcych";
                             clickCount--;
                           });
                         } else if (clickCount == 13) {
                           setState(() {
                             answer13 = 0;
                             txt =
-                            "Jestem w stanie w coś uwierzyć, dając się swoim emocjom";
+                            "Jestem sprawny fizycznie";
                             clickCount--;
                           });
                         } else if (clickCount == 14) {
                           setState(() {
                             answer14 = 0;
-                            txt = "Trudno mi utrzymać uwagę na jednej rzeczy";
+                            txt = "Cenię kontakt z naturą";
                             clickCount--;
                           });
                         } else if (clickCount == 15) {
                           setState(() {
                             answer15 = 0;
-                            txt = "Często zmieniam kierunek działania";
+                            txt = "Szukam stabilności finansowej i bezpieczeństwa";
                             clickCount--;
                           });
                         } else if (clickCount == 16) {
                           setState(() {
                             answer16 = 0;
-                            txt = "Grupa często widzi we mnie lidera";
+                            txt = "Preferuję pracę zdalną";
                             clickCount--;
                           });
                         } else if (clickCount == 17) {
                           setState(() {
                             answer17 = 0;
-                            txt =
-                            "Uważam że byłbym dobrym dyrektorem albo przywódcą politycznym";
+                            txt = "Jestem słaby w wystąpieniach publicznych i unikam ich";
                             clickCount--;
                           });
                         } else if (clickCount == 18) {
                           setState(() {
-                            answer18 = "";
-                            txt = "Czego brakuje ci do pełni szczęścia?";
+                            answer18 = 0;
+                            txt =
+                            "Bardzo cenię aspekt finansowy pracy";
                             clickCount--;
                           });
                         } else if (clickCount == 19) {
                           setState(() {
-                            answer19 = "";
+                            answer19 = 0;
+                            txt =
+                            "Chcę, by praca rozwijała mnie nawet kosztem zarobków";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 20) {
+                          setState(() {
+                            answer20 = 0;
+                            txt =
+                            "Dobrze wyciągam wnioski na podstawie danych";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 21) {
+                          setState(() {
+                            answer21 = 0;
+                            txt =
+                            "Interesuję się anatomią i pracą lekarzy";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 22) {
+                          setState(() {
+                            answer22 = 0;
+                            txt =
+                            "Mam dobrą pamięć do pojęć";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 23) {
+                          setState(() {
+                            answer23 = 0;
+                            txt =
+                            "Lubię brać udział w zorganizowanych projektach grupowych";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 24) {
+                          setState(() {
+                            answer24 = "";
+                            txt = "Opisz sytuację z pracy, która dała Ci największą satysfakcję";
+                            clickCount--;
+                          });
+                        } else if (clickCount == 25) {
+                          setState(() {
+                            answer25 = "Jakie umiejętności lub wiedzę chcesz rozwijać?";
                             clickCount--;
                             txt =
                             "Jaki byłby twój wymarzony partner życiowy?";
                           });
-                        } else if (clickCount == 20) {
+                        } else if (clickCount == 26) {
                           setState(() {
-                            answer20 = "";
+                            answer26 = "";
                             clickCount--;
                             txt =
-                            "Jaki byłby Twój wymarzony dzień?";
+                            "Czego unikasz lub się obawiasz w pracy?";
+                            btnNext="Dalej";
                           });
                         }
                         btn = 0;
@@ -487,7 +536,7 @@ class TestPageState extends State<TestPage> {
                           if (clickCount == 0 && btn != 0) {
                             setState(() {
                               answer1 = btn;
-                              txt = "Łatwo dogaduje się z nowymi osobami";
+                              txt = "Efektywniej pracuję, jeśli jestem sam";
                               clickCount++;
                               btn = 0;
                             });
@@ -495,14 +544,14 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer2 = btn;
                               txt =
-                                  "Muszę zaplanować pracę przed jej rozpoczęciem";
+                                  "Lubię wykonywać drobne naprawy lub inne prace manualne";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 2 && btn != 0) {
                             setState(() {
                               answer3 = btn;
-                              txt = "Mam problem z dotrzymywaniem terminów";
+                              txt = "Lubię/lubiłem pisać rozprawki lub prace naukowe";
                               clickCount++;
                               btn = 0;
                             });
@@ -510,49 +559,49 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer4 = btn;
                               txt =
-                                  "W sporze ważniejsze są uczucia, niż dotarcie do prawdy";
+                                  "Jestem zaawansowany w ogólnej obsłudze komputera";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 4 && btn != 0) {
                             setState(() {
                               answer5 = btn;
-                              txt = "Jestem bezkompromisowy i walczę o swoje";
+                              txt = "Mam wyczucie estetyki";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 5 && btn != 0) {
                             setState(() {
                               answer6 = btn;
-                              txt = "Miewam częste wahania nastroju";
+                              txt = "Lubię wyrażać swoją opinię";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 6 && btn != 0) {
                             setState(() {
                               answer7 = btn;
-                              txt = "Dobrze radzę sobie z emocjami";
+                              txt = "Regularnie obcuję ze sztuką";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 7 && btn != 0) {
                             setState(() {
                               answer8 = btn;
-                              txt = "Nie mam problemu z uzależnieniami";
+                              txt = "Umiem myśleć algorytmicznie";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 8 && btn != 0) {
                             setState(() {
                               answer9 = btn;
-                              txt = "Lubię nieszablonowe rozwiązania";
+                              txt = "Lubię rozwiązywać złożone problemy";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 9 && btn != 0) {
                             setState(() {
                               answer10 = btn;
-                              txt = "Mam predyspozycje do bycia artystą";
+                              txt = "Chcę tworzyć coś dla innych użytkowników";
                               clickCount++;
                               btn = 0;
                             });
@@ -560,7 +609,7 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer11 = btn;
                               txt =
-                                  "Swoje działania kieruję rozumem i logicznym myśleniem, bardziej niż emocjami";
+                                  "Szybko uczę się języków obcych";
                               clickCount++;
                               btn = 0;
                             });
@@ -568,28 +617,28 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer12 = btn;
                               txt =
-                                  "Jestem w stanie w coś uwierzyć, dając się swoim emocjom";
+                                  "Jestem sprawny fizycznie";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 12 && btn != 0) {
                             setState(() {
                               answer13 = btn;
-                              txt = "Trudno mi utrzymać uwagę na jednej rzeczy";
+                              txt = "Cenię kontakt z naturą";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 13 && btn != 0) {
                             setState(() {
                               answer14 = btn;
-                              txt = "Często zmieniam kierunek działania";
+                              txt = "Szukam stabilności finansowej i bezpieczeństwa";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 14 && btn != 0) {
                             setState(() {
                               answer15 = btn;
-                              txt = "Grupa często widzi we mnie lidera";
+                              txt = "Preferuję pracę zdalną";
                               clickCount++;
                               btn = 0;
                             });
@@ -597,79 +646,100 @@ class TestPageState extends State<TestPage> {
                             setState(() {
                               answer16 = btn;
                               txt =
-                                  "Uważam że byłbym dobrym dyrektorem albo przywódcą politycznym";
+                                  "Jestem słaby w wystąpieniach publicznych i unikam ich";
                               clickCount++;
                               btn = 0;
                             });
                           } else if (clickCount == 16 && btn != 0) {
                             setState(() {
                               answer17 = btn;
-                              txt = "Czego brakuje ci do pełni szczęścia?";
+                              txt = "Bardzo cenię aspekt finansowy pracy";
                               clickCount++;
                               btn = 0;
                             });
-                          } else if (clickCount == 17 && myController.text != "") {
+                          } else if (clickCount == 17 && btn != 0) {
                             setState(() {
-                              answer18 = myController.text;
+                              answer18 = btn;
+                              txt = "Chcę, by praca rozwijała mnie nawet kosztem zarobków";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 18 && btn != 0) {
+                            setState(() {
+                              answer19 = btn;
+                              txt = "Dobrze wyciągam wnioski na podstawie danych";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 19 && btn != 0) {
+                            setState(() {
+                              answer20 = btn;
+                              txt = "Interesuję się anatomią i pracą lekarzy";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 20 && btn != 0) {
+                            setState(() {
+                              answer21 = btn;
+                              txt = "Mam dobrą pamięć do pojęć";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 21 && btn != 0) {
+                            setState(() {
+                              answer22 = btn;
+                              txt = "Lubię brać udział w zorganizowanych projektach grupowych";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 22 && btn != 0) {
+                            setState(() {
+                              answer23 = btn;
+                              txt = "Opisz sytuację z pracy, która dała Ci największą satysfakcję";
+                              clickCount++;
+                              btn = 0;
+                            });
+                          } else if (clickCount == 23 && myController.text != "") {
+                            setState(() {
+                              answer24 = myController.text;
                               clickCount++;
                               txt =
-                                  "Jaki byłby twój wymarzony partner życiowy?";
+                                  "Jakie umiejętności lub wiedzę chcesz rozwijać?";
                               myController.text = "";
                             });
-                            } else if (clickCount == 18 && myController.text != "") {
+                          } else if (clickCount == 24 && myController.text != "") {
                             setState(() {
-                              answer19 = myController.text;
+                              answer25 = myController.text;
                               clickCount++;
                               txt =
-                                  "Jaki byłby Twój wymarzony dzień?";
+                                  "Czego unikasz lub się obawiasz w pracy?";
                               myController.text = "";
                             });
-
-                            } else if (clickCount == 19 && myController.text != "") {
+                          } else if (clickCount == 25 && myController.text != "") {
                             setState(() {
-                              answer20 = myController.text;
+                              answer26 = myController.text;
                               clickCount++;
                               txt =
-                                  "Czego w życiu najbardziej się boisz?";
+                                  "Jak praca ma wpływać na Twoje życie prywatne?";
                               myController.text = "";
                               btnNext = "Zakończ";
                             });
-
-                            } else if (clickCount == 20 && myController.text != "") {
+                          } else if (clickCount == 26 && myController.text != "") {
                             setState(() {
-                              answer21 = myController.text;
+                              answer27 = myController.text;
                               Navigator.pop(context);
-                              Navigator.pushNamed(context, AppRoutes.menu_page);
+                              Navigator.pushNamed(context, AppRoutes.advice_page);
                               clickCount++;
                               myController.text = "";
                               //txt =
                               //    "Txt: $answer18, $answer19, $answer20, $answer21";
                             });
-
-                            //Map<String, dynamic> dane = {
-                            //  'Pytanie': {
-                            //    'Pytanie 1',
-                            //    'Pytanie 2',
-                            //    'Pytanie 3',
-                            //    'Pytanie 4',
-                            //    'Pytanie 5',
-                            //    'Pytanie 6'
-                            //  },
-                            //  'Odpowiedź': {
-                            //    answer1,
-                            //    answer2,
-                            //    answer3,
-                            //    answer4,
-                            //    answer5,
-                            //    answer6
-                            //  },
-                            //};
                           }
                         }),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:your_advisor/UI/custom_widgets/main_page/main_button.dart';
 import 'package:your_advisor/domain/app_colors.dart';
+import 'package:your_advisor/UI/pages/test_page_profession.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -45,7 +46,7 @@ class MenuPage extends StatelessWidget {
                   "Czujesz, że stoisz w tyle? Boisz się o pracę po studiach? Twój wybór okazał się nietrafiony? Nasz Asystent odnajdzie zawód pasujący do Twojej osobowości.",
               assetImagePath: "assets/icon/goal.png",
               onPressed: () {
-                Navigator.of(context).pushNamed('/advice');
+                Navigator.of(context).pushNamed('/testProf');
               },
             ),
           ],

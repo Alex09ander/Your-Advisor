@@ -67,7 +67,7 @@ class StartPage extends StatelessWidget {
                 textColor: Theme.of(context).colorScheme.onSurface,
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, AppRoutes.test_page);
+                  Navigator.pushNamed(context, AppRoutes.menu_page);
                 },
               ),
               Gap(40),
