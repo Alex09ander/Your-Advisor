@@ -33,8 +33,7 @@ class CustomRoundedBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.button,
-      color: Theme.of(context).colorScheme.surface,
-      // color: Colors.transparent,
+      color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(30),
         onTap: onTap,

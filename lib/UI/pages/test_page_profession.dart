@@ -63,10 +63,12 @@ class TestPageState extends State<TestPageProfession> {
               progress: (clickCount / 26) * 350,
             ),
             SizedBox(
-              height: 30,
+              height: 10,
             ),
-            Align(
+            Container(
               alignment: Alignment.center,
+              height: 120,
+              width: 400,
               child: Text("$txt",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -76,7 +78,7 @@ class TestPageState extends State<TestPageProfession> {
                       fontWeight: FontWeight.bold)),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             clickCount < 23
                 ? Align(
@@ -320,10 +322,14 @@ class TestPageState extends State<TestPageProfession> {
                         ],
                       ),
                     ))
-                : Center(
+                : Container(
+                    width: 400,
                     child: TextField(
+                      minLines: 5,
+                      maxLines: 10,
                       controller: myController,
                       decoration: const InputDecoration(
+                        hintMaxLines: 4,
                           labelText: "Wprowadź odpowiedź"),
                     ),
                   ),
