@@ -7,8 +7,7 @@
         {
             "name": "Your-Advisor",
             "request": "launch",
-            "type": "dart",
-            "program": "lib/UI/main.dart"
+            "type": "dart"
         },
         {
             "name": "Your-Advisor (profile mode)",

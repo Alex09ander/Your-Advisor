@@ -45,8 +45,10 @@ class CustomRoundedBtn extends StatelessWidget {
             color: isOutlined ? Colors.transparent : bgColor,
             border: isOutlined
                 ? Border.all(
-                    width: 3,
-                    color: isOutlined ? AppColors.primaryColor : Colors.transparent,
+                    width: 0.4,
+                    color: isOutlined
+                        ? Theme.of(context).colorScheme.onSurfaceVariant
+                        : Colors.transparent,
                   )
                 : null,
           ),

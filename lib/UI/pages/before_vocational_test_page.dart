@@ -1,20 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/custom_widgets/custom_rounded_btn.dart';
 import 'package:your_advisor/domain/app_routes.dart';
-import 'package:your_advisor/domain/auth/guest_auth_service.dart';
 
-import '../../domain/app_colors.dart';
-
-class StartPage extends StatelessWidget {
-  const StartPage({super.key});
+class BeforeVocationalTestPage extends StatelessWidget {
+  const BeforeVocationalTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -23,7 +18,7 @@ class StartPage extends StatelessWidget {
               Gap(80),
               Center(
                 child: Text(
-                  "Poznajmy się!",
+                  "Szukasz idealnego zawodu dla siebie?",
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
@@ -37,7 +32,7 @@ class StartPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 child: Text(
-                    "Poprosimy Cię o wypełnienie testu psychologicznego. Dzięki temu poznamy Twoje mocne i słabe strony. Test nie powinien zająć dłużej niż 10 minut.",
+                    "Żeby poznać swój wymarzony zawód, poprosimy Cię o wypełnienie testu kompetencji zawodowych. Dzięki temu odrzucimy to, co nie pasuje Twoim predyspozycjom. Test zajmie do kilku minut.",
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyMedium!),
               ),
@@ -52,27 +47,8 @@ class StartPage extends StatelessWidget {
                 bgColor: Theme.of(context).colorScheme.primary,
                 textColor: Theme.of(context).colorScheme.onPrimary,
                 onTap: () async {
-                  final guestAuth = GuestAuthService(Supabase.instance.client);
-                  await guestAuth.ensureSignedInAsGuest();
-                  if (!context.mounted) return;
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.test_vocational);
-                },
-              ),
-              Gap(20),
-              CustomRoundedBtn(
-                text: "Zaloguj z Google",
-                fontSize: 20,
-                mIconPath: "assets/svg/Google_Favicon_2025.svg",
-                iconColor: AppColors.text2Color,
-                mWidth: 350,
-                // textColor: AppColors.text2Color,
-                // bgColor: AppColors.secondaryColor,
-                bgColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-                textColor: Theme.of(context).colorScheme.onSurface,
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, AppRoutes.menu_page);
                 },
               ),
               Gap(40),

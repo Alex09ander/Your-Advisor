@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:your_advisor/UI/custom_widgets/main_page/main_button.dart';
 import 'package:your_advisor/domain/app_colors.dart';
-import 'package:your_advisor/UI/pages/test_page_profession.dart';
+import 'package:your_advisor/domain/app_routes.dart';
+import 'package:your_advisor/domain/auth/user_repository.dart';
+import 'package:your_advisor/domain/tests/test_repository.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -32,7 +35,7 @@ class MenuPage extends StatelessWidget {
                   "Męczy Cię jakaś sprawa? Czujesz się przytłoczony? Zagubiłeś się i chcesz o tym pogadać? Nasz Asystent jest do Twojej dyspozycji.",
               assetImagePath: "assets/icon/psychology.png",
               onPressed: () {
-                Navigator.of(context).pushNamed('/advice');
+                Navigator.of(context).pushNamed(AppRoutes.advice);
               },
             ),
             // Divider(
@@ -45,8 +48,15 @@ class MenuPage extends StatelessWidget {
               contentText:
                   "Czujesz, że stoisz w tyle? Boisz się o pracę po studiach? Twój wybór okazał się nietrafiony? Nasz Asystent odnajdzie zawód pasujący do Twojej osobowości.",
               assetImagePath: "assets/icon/goal.png",
-              onPressed: () {
-                Navigator.of(context).pushNamed('/testProf');
+              onPressed: () async {
+                final userId = context.read<UserRepository>().userId!;
+                final vocationalTest =
+                    await context.read<TestRepository>().vocationTest(userId);
+                if (vocationalTest == null) {
+                  Navigator.of(context).pushNamed(AppRoutes.before_test_vocational);
+                } else {
+                  Navigator.of(context).pushNamed(AppRoutes.career_advice);
+                }
               },
             ),
           ],

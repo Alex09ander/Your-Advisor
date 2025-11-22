@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_m3shapes/flutter_m3shapes.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:your_advisor/domain/backend.dart';
 
 class AdvicePage extends StatefulWidget {
   const AdvicePage({super.key});
@@ -20,7 +22,7 @@ class _AdvicePageState extends State<AdvicePage> {
 
   bool _isSending = false;
 
-  static const _backendBaseUrl = 'https://hackheroes25-advice.fly.dev/advice'; // TODO
+  static const _backendBaseUrl = '$backendUrl/advice';
 
   @override
   void dispose() {
@@ -73,7 +75,7 @@ class _AdvicePageState extends State<AdvicePage> {
       queryParameters: {
         'message': message,
         // 'user_id': 'demo-user-id', // TODO: podmień na prawdziwe ID
-        'user_id': "a7a7f865-8abc-4197-bf92-33bd78d1b502"
+        'user_id': Supabase.instance.client.auth.currentUser!.id
       },
     );
 
