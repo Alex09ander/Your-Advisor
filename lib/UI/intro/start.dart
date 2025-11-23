@@ -56,7 +56,7 @@ class StartPage extends StatelessWidget {
                   await guestAuth.ensureSignedInAsGuest();
                   if (!context.mounted) return;
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, AppRoutes.test_vocational);
+                  Navigator.pushNamed(context, AppRoutes.test_psychology);
                 },
               ),
               Gap(20),
