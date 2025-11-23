@@ -52,8 +52,19 @@ class StartPage extends StatelessWidget {
                 bgColor: Theme.of(context).colorScheme.primary,
                 textColor: Theme.of(context).colorScheme.onPrimary,
                 onTap: () async {
-                  final guestAuth = GuestAuthService(Supabase.instance.client);
-                  await guestAuth.ensureSignedInAsGuest();
+                  try {
+                    final guestAuth =
+                        GuestAuthService(Supabase.instance.client);
+                    await guestAuth.ensureSignedInAsGuest();
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "Wystąpił błąd podczas logowania jako gość. Spróbuj ponownie. ${e.toString()}"),
+                      ),
+                    );
+                    print("Error during guest sign-in: $e");
+                  }
                   if (!context.mounted) return;
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.test_psychology);
