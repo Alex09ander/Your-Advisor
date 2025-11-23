@@ -4,6 +4,7 @@ import 'package:your_advisor/UI/intro/splash.dart';
 import 'package:your_advisor/UI/intro/start.dart';
 import 'package:your_advisor/UI/pages/before_vocational_test_page.dart';
 import 'package:your_advisor/UI/pages/career_advice_page.dart';
+import 'package:your_advisor/UI/pages/fields_of_study.dart';
 import 'package:your_advisor/UI/pages/test_page_psychology.dart';
 import 'package:your_advisor/UI/pages/advice_page.dart';
 import 'package:your_advisor/UI/pages/test_page_vocational.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
   static const String menu_page = '/menu';
   static const String advice = '/advice';
   static const String career_advice = '/career_advice';
+  static const String fields_of_study = '/fields_of_study';
 
   static Map<String, Widget Function(BuildContext)> getRoutes() => {
         splash_page: (context) => const SplashPage(),
@@ -31,7 +33,9 @@ class AppRoutes {
         advice: (context) => const AdvicePage(),
         career_advice: (context) {
           final userId = context.read<UserRepository>().userId!;
-          return CareerAdvicePage(userId: userId);
-        }
-      };
+          return CareerAdvicePage(userId: userId, onShowStudies: (advice) {
+            Navigator.of(context).pushNamed(AppRoutes.fields_of_study);
+          },);
+        },
+        fields_of_study: (context) => const JobPathwaysScreen()      };
 }
