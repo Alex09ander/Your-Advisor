@@ -327,7 +327,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                       const SizedBox(height: 12),
                     ] else ...[
                       Text(
-                        'To najwyżej oceniana opcja na bazie Twojego profilu.',
+                        'To najwyżej oceniana opcja na bazie Twojej osobowości.',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: colors.onSurfaceVariant,
                               height: 1.4,
