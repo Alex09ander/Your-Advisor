@@ -88,13 +88,13 @@ class TestPageVocationalState extends State<TestPageVocational> {
   }
 
   Widget buildOpenInput() {
-    return SizedBox(
-      width: 400,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: TextField(
         controller: myController,
         minLines: 5,
         maxLines: 10,
-        decoration: const InputDecoration(labelText: "Wprowadź odpowiedź"),
+        decoration: InputDecoration(labelText: "Wprowadź odpowiedź"),
       ),
     );
   }
@@ -121,62 +121,105 @@ class TestPageVocationalState extends State<TestPageVocational> {
       child: Column(
         children: [
           for (int i = 0; i < 7; i++) ...[
-            Row(
-              children: [
-                CustomCircleBtn(
-                  onTap: () => setState(() {
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(60),
+                onTap: () {
+                  setState(() {
                     selectedAnswer = selectedAnswer == i + 1 ? 0 : i + 1;
-                  }),
-                  bgColor: colorFor(i),
-                  mRadius: 50,
-                  isOutlined: selectedAnswer != i + 1,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 70),
-                  child: Text(
-                    labels[i],
-                    style: Theme.of(context).textTheme.titleMedium,
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    children: [
+                      CustomCircleBtn(
+                        onTap: () {
+                          setState(() {
+                            selectedAnswer = selectedAnswer == i + 1 ? 0 : i + 1;
+                          });
+                        },
+                        bgColor: i < 3
+                            ? AppColors.greenColor
+                            : i == 3
+                                ? AppColors.greyColor
+                                : AppColors.purpleColor,
+                        mRadius: 50,
+                        isOutlined: selectedAnswer != i + 1,
+                      ),
+                      const SizedBox(width: 30),
+                      Expanded(
+                        child: Text(
+                          labels[i],
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-            const SizedBox(height: 10),
-          ],
+            const SizedBox(height: 4),
+          ]
         ],
       ),
     );
   }
 
   Widget buildBottomButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 20, 0),
-          child: CustomRoundedBtn(
-            text: "Wróć",
-            fontSize: 20,
-            mWidth: 160,
-            mHeight: 80,
-            isOutlined: true,
-            textColor: Theme.of(context).colorScheme.onSurfaceVariant,
-            bgColor: Theme.of(context).colorScheme.surfaceContainer,
-            onTap: back,
+    final cs = Theme.of(context).colorScheme;
+    final isLast = questionIndex == 20;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // WRÓĆ — OutlinedButton
+          SizedBox(
+            width: 160,
+            height: 56,
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: cs.onSurfaceVariant,
+                side: BorderSide(color: cs.outline),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: back,
+              child: const Text(
+                "Wróć",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
-          child: CustomRoundedBtn(
-            text: questionIndex == 26 ? "Zakończ" : "Dalej",
-            fontSize: 20,
-            mWidth: 160,
-            mHeight: 80,
-            textColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            bgColor: Theme.of(context).colorScheme.primaryContainer,
-            onTap: next,
+
+          const SizedBox(width: 20),
+
+          // DALEJ / ZAKOŃCZ — FilledButton
+          SizedBox(
+            width: 160,
+            height: 56,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: cs.primaryContainer,
+                foregroundColor: cs.onPrimaryContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: next,
+              child: Text(
+                isLast ? "Zakończ" : "Dalej",
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

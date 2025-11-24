@@ -19,21 +19,25 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () async {
-      final userId = context.read<UserRepository>().userId;
-      bool userExists = userId != null;
-      if (userExists) {
-        final psychologyTest =
-            await context.read<TestRepository>().psychologyTest(userId);
-        final psychologyTestExists = psychologyTest != null;
-        if (!mounted) {
-          throw Exception("Context is not mounted");
-        }
-        if (psychologyTestExists) {
-          Navigator.pushNamed(context, AppRoutes.menu_page);
+      try {
+        final userId = context.read<UserRepository>().userId;
+        bool userExists = userId != null;
+        if (userExists) {
+          final psychologyTest =
+              await context.read<TestRepository>().psychologyTest(userId);
+          final psychologyTestExists = psychologyTest != null;
+          if (!mounted) {
+            throw Exception("Context is not mounted");
+          }
+          if (psychologyTestExists) {
+            Navigator.pushNamed(context, AppRoutes.menu_page);
+          } else {
+            Navigator.pushNamed(context, AppRoutes.test_psychology);
+          }
         } else {
-          Navigator.pushNamed(context, AppRoutes.test_psychology);
+          Navigator.pushNamed(context, AppRoutes.start_page);
         }
-      } else {
+      } catch (e) {
         Navigator.pushNamed(context, AppRoutes.start_page);
       }
     });

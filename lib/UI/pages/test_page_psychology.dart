@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/custom_widgets/custom_circle_btn.dart';
 import 'package:your_advisor/UI/custom_widgets/progress_bar.dart';
 import 'package:your_advisor/domain/app_colors.dart';
+import 'package:your_advisor/domain/auth/guest_auth_service.dart';
 import 'package:your_advisor/domain/backend.dart';
 import '../../domain/app_routes.dart';
 import '../custom_widgets/custom_rounded_btn.dart';
@@ -61,22 +62,21 @@ class TestPageState extends State<TestPage> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 60),
             ProgressBar(progress: (index / 21) * 350),
-            SizedBox(height: 10),
-            Container(
-              alignment: Alignment.center,
-              height: 120,
-              width: 400,
-              child: Text(
-                questions[index],
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+            SizedBox(height: 50),
+            Text(
+              questions[index],
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 30),
             isOpen ? buildOpenInput() : buildClosedOptions(),
+            Spacer(),
             buildBottomButtons(),
+            SizedBox(
+              height: 25,
+            )
           ],
         ),
       ),
@@ -87,8 +87,8 @@ class TestPageState extends State<TestPage> {
   // INPUT OTWARTY
   // ---------------------------------------
   Widget buildOpenInput() {
-    return Container(
-      width: 400,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: TextField(
         controller: myController,
         minLines: 5,
@@ -113,37 +113,51 @@ class TestPageState extends State<TestPage> {
     ];
 
     return Padding(
-      padding: EdgeInsets.only(left: 20),
+      padding: const EdgeInsets.only(left: 20),
       child: Column(
         children: [
           for (int i = 0; i < 7; i++) ...[
-            Row(
-              children: [
-                CustomCircleBtn(
-                  onTap: () {
-                    setState(() {
-                      selected = selected == i + 1 ? 0 : i + 1;
-                    });
-                  },
-                  bgColor: i < 3
-                      ? AppColors.greenColor
-                      : i == 3
-                          ? AppColors.greyColor
-                          : AppColors.purpleColor,
-                  mRadius: 50,
-                  // mRadius: 70 - i * 10,
-                  isOutlined: selected != i + 1,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 70),
-                  child: Text(
-                    labels[i],
-                    style: Theme.of(context).textTheme.titleMedium,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(60),
+                onTap: () {
+                  setState(() {
+                    selected = selected == i + 1 ? 0 : i + 1;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    children: [
+                      CustomCircleBtn(
+                        onTap: () {
+                          setState(() {
+                            selected = selected == i + 1 ? 0 : i + 1;
+                          });
+                        },
+                        bgColor: i < 3
+                            ? AppColors.greenColor
+                            : i == 3
+                                ? AppColors.greyColor
+                                : AppColors.purpleColor,
+                        mRadius: 50,
+                        isOutlined: selected != i + 1,
+                      ),
+                      const SizedBox(width: 30),
+                      Expanded(
+                        child: Text(
+                          labels[i],
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              ],
+                ),
+              ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 4),
           ]
         ],
       ),
@@ -154,51 +168,70 @@ class TestPageState extends State<TestPage> {
   // PRZYCISKI DÓŁ
   // ---------------------------------------
   Widget buildBottomButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // WRÓĆ
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, 20, 20, 0),
-          child: CustomRoundedBtn(
-            text: "Wróć",
-            fontSize: 20,
-            mWidth: 160,
-            mHeight: 80,
-            isOutlined: true,
-            textColor: Theme.of(context).colorScheme.onSurfaceVariant,
-            bgColor: Theme.of(context).colorScheme.surfaceContainer,
-            onTap: back,
-          ),
-        ),
+    final cs = Theme.of(context).colorScheme;
+    final isLast = index == 20;
 
-        // DALEJ / ZAKOŃCZ
-        Padding(
-          padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-          child: CustomRoundedBtn(
-            text: index == 20 ? "Zakończ" : "Dalej",
-            fontSize: 20,
-            mWidth: 160,
-            mHeight: 80,
-            textColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            bgColor: Theme.of(context).colorScheme.primaryContainer,
-            onTap: next,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // WRÓĆ — OutlinedButton
+          SizedBox(
+            width: 160,
+            height: 56,
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: cs.onSurfaceVariant,
+                side: BorderSide(color: cs.outline),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: back,
+              child: const Text(
+                "Wróć",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
           ),
-        ),
-      ],
+
+          const SizedBox(width: 20),
+
+          // DALEJ / ZAKOŃCZ — FilledButton
+          SizedBox(
+            width: 160,
+            height: 56,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: cs.primaryContainer,
+                foregroundColor: cs.onPrimaryContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: next,
+              child: Text(
+                isLast ? "Zakończ" : "Dalej",
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   // ---------------------------------------
   // LOGIKA "DALEJ"
   // ---------------------------------------
-  void next() {
+  Future<void> next() async {
     // zamknięte
     if (index < 17) {
       if (selected == 0) return;
       closed[index] = selected;
       selected = 0;
-      goNext();
+      await goNext();
       return;
     }
 
@@ -207,14 +240,50 @@ class TestPageState extends State<TestPage> {
 
     open[index - 17] = myController.text;
     myController.clear();
-    goNext();
+    await goNext();
   }
 
-  void goNext() {
+  Future<void> goNext() async {
     if (index == 20) {
-      sendData();
-      Navigator.pop(context);
-      Navigator.pushNamed(context, AppRoutes.menu_page);
+      try {
+        await sendData();
+
+        if (!mounted) return;
+
+        // najpierw podziękowanie na tym ekranie
+        final cs = Theme.of(context).colorScheme;
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Dziękujemy za wypełnienie testu"),
+              content: const Text(
+                  "Po tym jak już znamy Twoją osobowość, możesz rozpocząć rozmowę z naszym Asystentem."),
+              actions: [
+                FilledButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (!mounted) return;
+
+        // dopiero potem przejście do menu
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.menu_page,
+          (route) => false,
+        );
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Nie udało się wysłać testu: $e")),
+        );
+      }
+
       return;
     }
 
@@ -246,19 +315,29 @@ class TestPageState extends State<TestPage> {
     });
   }
 
-  void sendData() async {
+  Future<void> sendData() async {
+    final client = Supabase.instance.client;
+
+    var user = client.auth.currentUser;
+
+    // jeśli z jakiegoś powodu user jest null (np. sesja nie weszła), spróbuj zalogować gościa
+    if (user == null) {
+      final guestAuth = GuestAuthService(client);
+      await guestAuth.ensureSignedInAsGuest();
+      user = client.auth.currentUser;
+    }
+
+    if (user == null) {
+      throw Exception("Brak zalogowanego użytkownika (user == null)");
+    }
+
     final payload = TestPayload(
-      userId: Supabase
-          .instance.client.auth.currentUser!.id, // tutaj ID usera z Twojej aplikacji
+      userId: user.id,
       closedAnswers: closed,
       openAnswers: open,
     );
 
-    try {
-      final response = await submitPsychologyTest(payload);
-      print("OK: $response");
-    } catch (e) {
-      print("ERR: $e");
-    }
+    final response = await submitPsychologyTest(payload);
+    debugPrint("Psychology test sent OK: $response");
   }
 }

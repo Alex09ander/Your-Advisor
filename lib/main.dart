@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/intro/splash.dart';
 import 'package:your_advisor/UI/theme/app_theme.dart';
 import 'package:your_advisor/UI/theme/flutter_theme_creator.dart';
+import 'package:your_advisor/domain/auth/guest_auth_service.dart';
 import 'package:your_advisor/domain/auth/supabase_user_repository.dart';
 import 'package:your_advisor/domain/auth/user_repository.dart';
 import 'package:your_advisor/domain/career_advice/backend_career_advice_api.dart';
@@ -20,6 +21,16 @@ void main() async {
       url: "https://jbxgzhiiiifqqiwoqmzr.supabase.co",
       anonKey:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpieGd6aGlpaWlmcXFpd29xbXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY1MDAsImV4cCI6MjA3ODM4MjUwMH0.6cnrkL1Ep3wFV7-wEV7xSP4qTISGPVODygpxnpTqoBU");
+
+  // final authService = GuestAuthService(Supabase.instance.client);
+  // try {
+  //   await authService.ensureSignedInAsGuest();
+  // } catch (e) {
+  //   if (e.toString().contains("invalid_credentials")) {
+  //     await authService.resetGuestOnThisDevice();
+  //     await authService.ensureSignedInAsGuest();
+  //   }
+  // }
 
   runApp(const MyApp());
 }

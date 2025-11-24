@@ -5,6 +5,11 @@ final class MockCareerAdviceApi implements CareerAdviceApi {
   Future<CareerAdvice> getAdvice(String userId, JobDemandPriority demandPriority) async {
     await Future.delayed(const Duration(seconds: 3));
 
-    return const CareerAdvice("Business analyst");
+    return const CareerAdvice(
+        ["Konsultant IT", "Programista", "Psychiatra", "Architekt"],
+        [0.7, 0.6, 0.2, 0.15],
+        "Programista",
+        "Konsultant IT",
+        ["Programista, Architekt"]);
   }
 }

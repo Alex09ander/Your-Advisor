@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:your_advisor/domain/career_advice/career_advice_api.dart';
@@ -39,9 +41,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
 
   void _onPriorityChanged(JobDemandPriority newPriority) {
     if (newPriority == _priority) return;
-    setState(() {
-      _priority = newPriority;
-    });
+    setState(() => _priority = newPriority);
     _loadAdvice();
   }
 
@@ -61,20 +61,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(
-              //   'Na bazie Twojego profilu',
-              //   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              //         fontWeight: FontWeight.w600,
-              //       ),
-              // ),
-              // const SizedBox(height: 4),
-              // Text(
-              //   'Zobacz zawód, który może do Ciebie pasować.',
-              //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //         color: colors.onSurfaceVariant,
-              //       ),
-              // ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               _buildPrioritySelector(context),
               const SizedBox(height: 16),
               Expanded(
@@ -114,7 +101,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
     final colors = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -126,7 +113,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
           ),
           const SizedBox(height: 8),
           SegmentedButton<JobDemandPriority>(
-            style: ButtonStyle(
+            style: const ButtonStyle(
               visualDensity: VisualDensity.compact,
             ),
             segments: const [
@@ -136,12 +123,12 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                 icon: Icon(Icons.all_inclusive_rounded),
               ),
               ButtonSegment<JobDemandPriority>(
-                value: JobDemandPriority.currently,
+                value: JobDemandPriority.current,
                 label: Text('Teraz'),
                 icon: Icon(Icons.bolt_rounded),
               ),
               ButtonSegment<JobDemandPriority>(
-                value: JobDemandPriority.in5Years,
+                value: JobDemandPriority.in5years,
                 label: Text('Za 5 lat'),
                 icon: Icon(Icons.trending_up_rounded),
               ),
@@ -157,6 +144,12 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
       ),
     );
   }
+
+  String _priorityHint(JobDemandPriority p) => switch (p) {
+        JobDemandPriority.none => 'bez filtra popytu',
+        JobDemandPriority.current => 'z popytem na teraz',
+        JobDemandPriority.in5years => 'z popytem za 5 lat',
+      };
 
   /// ====== Stany Future ======
 
@@ -257,9 +250,14 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
   Widget _buildAdviceCard(BuildContext context, CareerAdvice advice) {
     final colors = Theme.of(context).colorScheme;
 
-    // Mockowy obrazek – możesz potem podmienić na realny z backendu:
     const mockImageUrl =
         'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800';
+
+    final bool demandFiltered = _priority != JobDemandPriority.none;
+    final bool hasDemandMatch = advice.jobWithDemand != null;
+    final String bestJob = advice.absoluteBestJob;
+    final String mainJob =
+        (demandFiltered && hasDemandMatch) ? advice.jobWithDemand! : bestJob;
 
     return Align(
       alignment: Alignment.topCenter,
@@ -271,17 +269,13 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Zdjęcie zawodu
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
                 child: Stack(
                   children: [
                     AspectRatio(
                       aspectRatio: 16 / 9,
-                      child: Image.network(
-                        mockImageUrl,
-                        fit: BoxFit.cover,
-                      ),
+                      child: Image.network(mockImageUrl, fit: BoxFit.cover),
                     ),
                     Positioned(
                       left: 16,
@@ -297,14 +291,13 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
-                                Icons.work_outline_rounded,
-                                size: 16,
-                                color: colors.onSurface,
-                              ),
+                              Icon(Icons.work_outline_rounded,
+                                  size: 16, color: colors.onSurface),
                               const SizedBox(width: 6),
                               Text(
-                                'Propozycja zawodu',
+                                demandFiltered
+                                    ? 'Propozycja zawodu ${_priorityHint(_priority)}'
+                                    : 'Propozycja zawodu',
                                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                       color: colors.onSurfaceVariant,
                                     ),
@@ -323,20 +316,26 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      advice.bestJob,
+                      mainJob,
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Praca Data Analyst wymaga skupienia podczas analizowania setek danych. '
-                      'Twoja sumienność idealnie tu pasuje.',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: colors.onSurfaceVariant,
-                            height: 1.4,
-                          ),
-                    ),
+                    const SizedBox(height: 10),
+                    if (demandFiltered && !hasDemandMatch) ...[
+                      _buildNoDemandMatchBanner(context, _priority, bestJob),
+                      const SizedBox(height: 12),
+                    ] else ...[
+                      Text(
+                        'To najwyżej oceniana opcja na bazie Twojego profilu.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: colors.onSurfaceVariant,
+                              height: 1.4,
+                            ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                    _buildTopJobsList(context, advice, highlight: mainJob),
                     const SizedBox(height: 20),
                     Row(
                       children: [
@@ -396,6 +395,170 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNoDemandMatchBanner(
+      BuildContext context, JobDemandPriority demandPriority, String bestJob) {
+    final colors = Theme.of(context).colorScheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colors.outlineVariant),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.search_off_rounded, color: colors.onSurfaceVariant),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  demandPriority == JobDemandPriority.current
+                      ? 'Nie znalezłem dla Ciebie zawodu z popytem na teraz.'
+                      : 'Nie znalazłem dla Ciebie zawodu z popytem za 5 lat',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: colors.onSurface,
+                      ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Bez względu na popyt, warto rozważyć: $bestJob.',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                        height: 1.35,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTopJobsList(
+    BuildContext context,
+    CareerAdvice advice, {
+    required String highlight,
+  }) {
+    final colors = Theme.of(context).colorScheme;
+
+    final pairs = <({String job, double score})>[];
+    for (var i = 0; i < math.min(advice.jobs.length, advice.scores.length); i++) {
+      pairs.add((job: advice.jobs[i], score: advice.scores[i]));
+    }
+    pairs.sort((a, b) => b.score.compareTo(a.score));
+
+    final maxScore = pairs.isEmpty
+        ? 1.0
+        : pairs.map((e) => e.score).reduce(math.max).clamp(1e-9, double.infinity);
+
+    final top = pairs.take(5).toList();
+
+    if (top.isEmpty) return const SizedBox.shrink();
+
+    final demandActive = _priority != JobDemandPriority.none;
+    final fits = advice.fitsToDemand;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Text(
+        //   'Top propozycje',
+        //   style: Theme.of(context).textTheme.titleSmall?.copyWith(
+        //         fontWeight: FontWeight.w700,
+        //         color: colors.onSurface,
+        //       ),
+        // ),
+        // const SizedBox(height: 8),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: top.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 8),
+          itemBuilder: (context, index) {
+            final item = top[index];
+            final raw = item.score;
+            num transform(num number) => math.pow(number, 1 / 4);
+            final norm = transform(raw);
+            final maxNorm = transform(maxScore);
+            final value = (norm / maxNorm).clamp(0.0, 1.0);
+            final isMain = item.job == highlight;
+
+            final demandOK = fits.contains(item.job);
+
+// kolor tła
+            final bg = demandActive
+                ? (demandOK
+                    ? colors.primaryContainer.withOpacity(0.55)
+                    : colors.surfaceContainerLow.withOpacity(0.30))
+                : (isMain
+                    ? colors.primaryContainer.withOpacity(0.6)
+                    : colors.surfaceContainerLow);
+
+// border
+            final borderColor = demandActive
+                ? (demandOK ? colors.primary : Colors.transparent)
+                : (isMain ? colors.primary : colors.outlineVariant);
+
+// tekst
+            final textColor = demandActive && !demandOK
+                ? colors.onSurface.withOpacity(0.35)
+                : colors.onSurface;
+
+            return Container(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+              decoration: BoxDecoration(
+                color: bg,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: borderColor),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          item.job,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontWeight: isMain ? FontWeight.w700 : FontWeight.w600,
+                                color: textColor,
+                              ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${(value * 100).round()}%',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: colors.onSurfaceVariant,
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: LinearProgressIndicator(
+                      value: value,
+                      minHeight: 7,
+                      backgroundColor: colors.surfaceContainerHigh,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

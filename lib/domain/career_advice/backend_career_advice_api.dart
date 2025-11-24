@@ -7,8 +7,19 @@ import 'package:http/http.dart' as http;
 final class BackendCareerAdviceApi implements CareerAdviceApi {
   @override
   Future<CareerAdvice> getAdvice(String userId, JobDemandPriority demandPriority) async {
-    final url = Uri.parse(
-        "$backendUrl/career_adviser/advice?user_id=$userId&wpep_mode=${demandPriority.toInt()}");
+    final demandString = switch (demandPriority.name) {
+      "none" => null,
+      _ => demandPriority.name,
+    };
+
+    final query = {
+      "user_id": userId,
+      "wpep_mode": demandPriority.toInt().toString(),
+      if (demandString != null) "demand": demandString,
+    };
+
+    final url = Uri.parse(backendUrl)
+        .replace(path: "/career_adviser/advice", queryParameters: query);
 
     final response = await http.get(
       url,
