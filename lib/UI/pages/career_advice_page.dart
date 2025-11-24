@@ -341,24 +341,17 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                       children: [
                         Expanded(
                           child: FilledButton.icon(
-                            onPressed: () {
-                              if (widget.onShowJobDetails != null) {
-                                widget.onShowJobDetails!(advice);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('TODO: przejście do szczegółów zawodu'),
-                                  ),
-                                );
-                              }
-                            },
-                            icon: const Icon(Icons.info_outline_rounded),
-                            label: const Text('Sprawdź zawód'),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: OutlinedButton.icon(
+                            // onPressed: () {
+                            //   if (widget.onShowJobDetails != null) {
+                            //     widget.onShowJobDetails!(advice);
+                            //   } else {
+                            //     ScaffoldMessenger.of(context).showSnackBar(
+                            //       const SnackBar(
+                            //         content: Text('TODO: przejście do szczegółów zawodu'),
+                            //       ),
+                            //     );
+                            //   }
+                            // },
                             onPressed: () {
                               if (widget.onShowStudies != null) {
                                 widget.onShowStudies!(advice);
@@ -370,10 +363,28 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                                 );
                               }
                             },
-                            icon: const Icon(Icons.school_rounded),
-                            label: const Text('Kierunki studiów'),
+                            icon: const Icon(Icons.info_outline_rounded),
+                            label: const Text('Sprawdź zawód'),
                           ),
                         ),
+                        // const SizedBox(width: 12),
+                        // Expanded(
+                        //   child: OutlinedButton.icon(
+                        //     onPressed: () {
+                        //       if (widget.onShowStudies != null) {
+                        //         widget.onShowStudies!(advice);
+                        //       } else {
+                        //         ScaffoldMessenger.of(context).showSnackBar(
+                        //           const SnackBar(
+                        //             content: Text('TODO: kierunki studiów'),
+                        //           ),
+                        //         );
+                        //       }
+                        //     },
+                        //     icon: const Icon(Icons.school_rounded),
+                        //     label: const Text('Kierunki studiów'),
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 8),
