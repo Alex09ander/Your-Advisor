@@ -35,40 +35,43 @@ class CustomRoundedBtn extends StatelessWidget {
         child: InkWell(
             borderRadius: BorderRadius.circular(30),
             onTap: onTap,
-            child: Container(
-                width: mWidth,
-                height: mHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: isOutlined ? Colors.transparent : bgColor,
-                  border: isOutlined
-                      ? Border.all(
-                          width: 0.4,
-                          color: isOutlined
-                              ? Theme.of(context).colorScheme.onSurfaceVariant
-                              : Colors.transparent,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: mHeight),
+              child: Container(
+                  width: mWidth,
+                  // height: mHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: isOutlined ? Colors.transparent : bgColor,
+                    border: isOutlined
+                        ? Border.all(
+                            width: 0.4,
+                            color: isOutlined
+                                ? Theme.of(context).colorScheme.onSurfaceVariant
+                                : Colors.transparent,
+                          )
+                        : null,
+                  ),
+                  child: mIconPath != null
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 60),
+                          child: Row(children: [
+                            Expanded(
+                                child: Text(
+                              text,
+                              style: style,
+                            )),
+                            SvgPicture.asset(mIconPath!, width: 25, height: 25),
+                          ]),
                         )
-                      : null,
-                ),
-                child: mIconPath != null
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60),
-                        child: Row(children: [
-                          Expanded(
-                              child: Text(
-                            text,
-                            style: style,
-                          )),
-                          SvgPicture.asset(mIconPath!, width: 25, height: 25),
-                        ]),
-                      )
-                    : Center(
-                        child: Center(
-                          child: Text(
-                            text,
-                            style: style,
+                      : Center(
+                          child: Center(
+                            child: Text(
+                              text,
+                              style: style,
+                            ),
                           ),
-                        ),
-                      ))));
+                        )),
+            )));
   }
 }
