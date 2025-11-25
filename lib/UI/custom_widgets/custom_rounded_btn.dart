@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../domain/app_colors.dart';
 
 class CustomRoundedBtn extends StatelessWidget {
-  VoidCallback onTap;
+  VoidCallback? onTap;
   double mWidth;
   double mHeight;
   Color bgColor;
@@ -17,7 +17,7 @@ class CustomRoundedBtn extends StatelessWidget {
   double fontSize;
 
   CustomRoundedBtn({
-    required this.onTap,
+    this.onTap,
     required this.text,
     this.textColor = Colors.white,
     this.mIconPath,
