@@ -43,12 +43,12 @@ class BeforeVocationalTestPage extends StatelessWidget {
               const Spacer(),
               CustomRoundedBtn(
                 text: "Rozpocznij",
-                fontSize: 20,
                 mWidth: 350,
-                // textColor: AppColors.text2Color,
-                // bgColor: AppColors.thirdColor,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 bgColor: Theme.of(context).colorScheme.primary,
-                textColor: Theme.of(context).colorScheme.onPrimary,
                 onTap: () async {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.test_vocational);

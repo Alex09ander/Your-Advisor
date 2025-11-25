@@ -39,7 +39,7 @@ class StartPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Text(
-                      "Poprosimy Cię o wypełnienie testu psychologicznego...",
+                      "Poprosimy Cię o wypełnienie testu psychologicznego. Dzięki temu poznamy Cię bliżej i dostosujemy do Ciebie wszelkie porady. Nie udostępniamy nikomu Twoich danych.",
                       textAlign: TextAlign.left,
                       style: Theme.of(context).textTheme.bodyMedium!,
                     ),
@@ -48,10 +48,12 @@ class StartPage extends StatelessWidget {
                   const Spacer(),
                   CustomRoundedBtn(
                     text: "Rozpocznij",
-                    fontSize: 20,
                     mWidth: 350,
                     bgColor: Theme.of(context).colorScheme.primary,
-                    textColor: Theme.of(context).colorScheme.onPrimary,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                     onTap: () async {
                       final guestAuth = GuestAuthService(Supabase.instance.client);
                       try {
@@ -76,12 +78,14 @@ class StartPage extends StatelessWidget {
                   Gap(20),
                   CustomRoundedBtn(
                     text: "Zaloguj z Google",
-                    fontSize: 20,
                     mIconPath: "assets/svg/Google_Favicon_2025.svg",
                     iconColor: AppColors.text2Color,
                     mWidth: 350,
                     bgColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-                    textColor: Theme.of(context).colorScheme.onSurface,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Theme.of(context).colorScheme.onSurface),
                   ),
                   Gap(40),
                 ],
