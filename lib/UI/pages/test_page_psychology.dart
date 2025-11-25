@@ -1,3 +1,5 @@
+// test_page_psychology.dart
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,48 +16,65 @@ class TestPage extends StatefulWidget {
 }
 
 class TestPageState extends State<TestPage> {
-  final myController = TextEditingController();
+  // Constants
+  static const int _closedQuestionsCount = 17;
+  static const int _openQuestionsCount = 4;
+  static const int _totalQuestionsCount = _closedQuestionsCount + _openQuestionsCount;
+  static const int _likertScaleOptions = 7;
+  static const int _defaultLikertValue = 0; // 0 means not selected
 
-  // ---------------------------------------
-  // PYTANIA
-  // ---------------------------------------
-  final List<String> questions = [
-    "Pasuje mi bycie w centrum zainteresowania",
-    "Łatwo dogaduje się z nowymi osobami",
-    "Muszę zaplanować pracę przed jej rozpoczęciem",
-    "Mam problem z dotrzymywaniem terminów",
-    "W sporze ważniejsze są uczucia, niż dotarcie do prawdy",
-    "Jestem bezkompromisowy i walczę o swoje",
-    "Miewam częste wahania nastroju",
-    "Dobrze radzę sobie z emocjami",
-    "Nie mam problemu z uzależnieniami",
-    "Lubię nieszablonowe rozwiązania",
-    "Mam predyspozycje do bycia artystą",
-    "Swoje działania kieruję rozumem i logicznym myśleniem, bardziej niż emocjami",
-    "Jestem w stanie w coś uwierzyć, dając się swoim emocjom",
-    "Trudno mi utrzymać uwagę na jednej rzeczy",
-    "Często zmieniam kierunek działania",
-    "Grupa często widzi we mnie lidera",
-    "Uważam że byłbym dobrym dyrektorem albo przywódcą politycznym",
-    "Czego brakuje ci do pełni szczęścia?",
-    "Jaki byłby twój wymarzony partner życiowy?",
-    "Jaki byłby Twój wymarzony dzień?",
-    "Czego w życiu najbardziej się boisz?"
+  // Controllers
+  final TextEditingController _textController = TextEditingController();
+
+  // Questions
+  static const List<String> _closedQuestions = [
+    "Najlepiej czuję się, gdy wokół mnie jest dużo ludzi",
+    "Na spotkaniach lubię zabierać głos i inicjować rozmowę",
+    "Zwykle planuję zadania z wyprzedzeniem i wcześnie zaczynam pracę",
+    "Nawet gdy mi się nie chce, potrafię dokończyć rozpoczętą pracę",
+    "Często staram się zrozumieć punkt widzenia drugiej osoby, nawet jeśli się nie zgadzam",
+    "Jestem bezkompromisowy i często walczę o swoje",
+    "W stresujących sytuacjach zwykle zachowuję spokój",
+    'Często długo „przeżywam" porażki lub krytykę',
+    "Często wpadam na nietypowe pomysły lub rozwiązania",
+    "Lubię tworzyć coś własnego (np. muzykę, grafikę, teksty, projekty)",
+    "Potrzebuję logicznych argumentów, żeby podjąć jakąś decyzję",
+    'Zdarza mi się podejmować ważne decyzje „pod wpływem chwili" lub intuicji',
+    "Łatwo się rozpraszam, kiedy pracuję nad jednym zadaniem",
+    "Zaczynam rzeczy z entuzjazmem, ale trudno mi je dokończyć",
+    "W grupie często przejmuję inicjatywę i organizuję działania",
+    "Czuję się komfortowo, kiedy jestem odpowiedzialny za decyzje dotyczące innych ludzi",
+    "Inni ludzie często proszą mnie o radę lub pomoc w podjęciu decyzji",
   ];
 
-  // ---------------------------------------
-  // ODPOWIEDZI
-  // ---------------------------------------
-  List<int> closed = List.filled(17, 0); // 0–16 zamknięte
-  List<String> open = List.filled(4, ""); // 17–20 otwarte
+  static const List<String> _openQuestions = [
+    "Czego najbardziej brakuje Ci w obecnym życiu, żebyś czuł/czuła się spełniony/a?",
+    "Jaki byłby Twój wymarzony partner życiowy lub idealna relacja z drugą osobą?",
+    "Jak wyglądałby Twój idealny dzień – od poranka do wieczora?",
+    "Czego w życiu najbardziej się obawiasz i dlaczego?",
+  ];
 
-  int index = 0; // aktualne pytanie
-  int selected = 0; // wybrana odpowiedź dla zamkniętych
+  // State
+  final List<int> _closedAnswers =
+      List.filled(_closedQuestionsCount, _defaultLikertValue);
+  final List<String> _openAnswers = List.filled(_openQuestionsCount, "");
+  int _currentQuestionIndex = 0;
+  int _selectedLikertValue = _defaultLikertValue;
+
+  List<String> get _allQuestions => [..._closedQuestions, ..._openQuestions];
+
+  bool get _isOpenQuestion => _currentQuestionIndex >= _closedQuestionsCount;
+  bool get _isLastQuestion => _currentQuestionIndex == _totalQuestionsCount - 1;
+  double get _progressValue => (_currentQuestionIndex / _totalQuestionsCount) * 350;
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bool isOpen = index >= 17;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
@@ -63,21 +82,20 @@ class TestPageState extends State<TestPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              Gap(70),
-              ProgressBar(progress: (index / 21) * 350),
-              Gap(30),
-              Spacer(),
-              // SizedBox(height: 20),
+              const Gap(70),
+              ProgressBar(progress: _progressValue),
+              const Gap(30),
+              const Spacer(),
               Text(
-                questions[index],
+                _allQuestions[_currentQuestionIndex],
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              Gap(30),
-              isOpen ? buildOpenInput() : buildClosedOptions(),
-              Spacer(),
-              buildBottomButtons(),
-              Gap(40)
+              const Gap(30),
+              _isOpenQuestion ? _buildOpenInput() : _buildClosedOptions(),
+              const Spacer(),
+              _buildBottomButtons(),
+              const Gap(40),
             ],
           ),
         ),
@@ -85,70 +103,56 @@ class TestPageState extends State<TestPage> {
     );
   }
 
-  // ---------------------------------------
-  // INPUT OTWARTY
-  // ---------------------------------------
-  Widget buildOpenInput() {
+  Widget _buildOpenInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400),
         child: TextField(
-          controller: myController,
+          controller: _textController,
           minLines: 5,
           maxLines: 10,
-          decoration: InputDecoration(labelText: "Wprowadź odpowiedź"),
+          decoration: const InputDecoration(labelText: "Wprowadź odpowiedź"),
         ),
       ),
     );
   }
 
-  // ---------------------------------------
-  // OPCJE ZAMKNIĘTE
-  // ---------------------------------------
-  Widget buildClosedOptions() {
-    final labels = [
+  Widget _buildClosedOptions() {
+    const labels = [
       "Zdecydowanie się zgadzam",
       "Zgadzam się",
       "Trochę się zgadzam",
       "Nie mam zdania",
       "Trochę się nie zgadzam",
       "Nie zgadzam się",
-      "Zdecydowanie się nie zgadzam"
+      "Zdecydowanie się nie zgadzam",
     ];
 
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Column(
         children: [
-          for (int i = 0; i < 7; i++) ...[
+          for (int i = 0; i < _likertScaleOptions; i++) ...[
             Material(
               color: Colors.transparent,
               child: InkWell(
                 splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(60),
-                onTap: () {
-                  setState(() {
-                    selected = selected == i + 1 ? 0 : i + 1;
-                  });
-                },
+                onTap: () => _handleLikertSelection(i + 1),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3),
                   child: Row(
                     children: [
                       CustomCircleBtn(
-                        onTap: () {
-                          setState(() {
-                            selected = selected == i + 1 ? 0 : i + 1;
-                          });
-                        },
+                        onTap: () => _handleLikertSelection(i + 1),
                         bgColor: i < 3
                             ? AppColors.greenColor
                             : i == 3
                                 ? AppColors.greyColor
                                 : AppColors.purpleColor,
                         mRadius: 50,
-                        isOutlined: selected != i + 1,
+                        isOutlined: _selectedLikertValue != i + 1,
                       ),
                       const SizedBox(width: 30),
                       Expanded(
@@ -163,61 +167,53 @@ class TestPageState extends State<TestPage> {
               ),
             ),
             const SizedBox(height: 4),
-          ]
+          ],
         ],
       ),
     );
   }
 
-  // ---------------------------------------
-  // PRZYCISKI DÓŁ
-  // ---------------------------------------
-  Widget buildBottomButtons() {
-    final cs = Theme.of(context).colorScheme;
-    final isLast = index == questions.length - 1;
+  Widget _buildBottomButtons() {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // WRÓĆ — OutlinedButton
           SizedBox(
             width: 160,
             height: 56,
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
-                foregroundColor: cs.onSurfaceVariant,
-                side: BorderSide(color: cs.outline),
+                foregroundColor: colorScheme.onSurfaceVariant,
+                side: BorderSide(color: colorScheme.outline),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              onPressed: back,
+              onPressed: _handleBack,
               child: const Text(
                 "Wróć",
                 style: TextStyle(fontSize: 20),
               ),
             ),
           ),
-
           const SizedBox(width: 20),
-
-          // DALEJ / ZAKOŃCZ — FilledButton
           SizedBox(
             width: 160,
             height: 56,
             child: FilledButton(
               style: FilledButton.styleFrom(
-                backgroundColor: cs.primaryContainer,
-                foregroundColor: cs.onPrimaryContainer,
+                backgroundColor: colorScheme.primaryContainer,
+                foregroundColor: colorScheme.onPrimaryContainer,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              onPressed: next,
+              onPressed: _handleNext,
               child: Text(
-                isLast ? "Zakończ" : "Dalej",
+                _isLastQuestion ? "Zakończ" : "Dalej",
                 style: const TextStyle(fontSize: 20),
               ),
             ),
@@ -227,108 +223,103 @@ class TestPageState extends State<TestPage> {
     );
   }
 
-  // ---------------------------------------
-  // LOGIKA "DALEJ"
-  // ---------------------------------------
-  Future<void> next() async {
-    // zamknięte
-    if (index < 17) {
-      if (selected == 0) return;
-      closed[index] = selected;
-      selected = 0;
-      await goNext();
-      return;
-    }
-
-    // otwarte
-    if (myController.text.isEmpty) return;
-
-    open[index - 17] = myController.text;
-    myController.clear();
-    await goNext();
+  void _handleLikertSelection(int value) {
+    setState(() {
+      _selectedLikertValue = _selectedLikertValue == value ? _defaultLikertValue : value;
+    });
   }
 
-  Future<void> goNext() async {
-    if (index == 20) {
-      try {
-        sendData().then((sent) {
-          if (!sent) {
-            if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Wystąpił błąd: nie udało się zapisać Twojego testu.")));
-          }
-        });
+  Future<void> _handleNext() async {
+    if (_isOpenQuestion) {
+      if (_textController.text.trim().isEmpty) return;
+      _openAnswers[_currentQuestionIndex - _closedQuestionsCount] =
+          _textController.text.trim();
+      _textController.clear();
+    } else {
+      if (_selectedLikertValue == _defaultLikertValue) return;
+      _closedAnswers[_currentQuestionIndex] = _selectedLikertValue;
+      _selectedLikertValue = _defaultLikertValue;
+    }
 
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text("Dziękujemy za wypełnienie testu"),
-              content: const Text(
-                  "Po tym jak już znamy Twoją osobowość, możesz rozpocząć rozmowę z naszym Asystentem."),
-              actions: [
-                FilledButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-
-        if (!mounted) return;
-
-        // dopiero potem przejście do menu
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.menu_page,
-          (route) => false,
-        );
-      } catch (e) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Nie udało się wysłać testu: $e")),
-        );
-      }
-
+    if (_isLastQuestion) {
+      await _submitTest();
       return;
     }
 
     setState(() {
-      index++;
+      _currentQuestionIndex++;
     });
   }
 
-  // ---------------------------------------
-  // LOGIKA "WRÓĆ"
-  // ---------------------------------------
-  void back() {
-    if (index == 0) {
+  void _handleBack() {
+    if (_currentQuestionIndex == 0) {
       Navigator.pop(context);
       Navigator.pushNamed(context, AppRoutes.start_page);
       return;
     }
 
-    if (index < 17) {
-      closed[index] = 0;
-      selected = 0;
+    if (_isOpenQuestion) {
+      _openAnswers[_currentQuestionIndex - _closedQuestionsCount] = "";
+      _textController.clear();
     } else {
-      open[index - 17] = "";
-      myController.clear();
+      _closedAnswers[_currentQuestionIndex] = _defaultLikertValue;
+      _selectedLikertValue = _defaultLikertValue;
     }
 
     setState(() {
-      index--;
+      _currentQuestionIndex--;
     });
   }
 
-  Future<bool> sendData() async {
-    final client = Supabase.instance.client;
+  Future<void> _submitTest() async {
+    try {
+      final success = await _sendData();
+      if (!mounted) return;
 
+      if (!success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Wystąpił błąd: nie udało się zapisać Twojego testu."),
+          ),
+        );
+        return;
+      }
+
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Dziękujemy za wypełnienie testu"),
+          content: const Text(
+            "Po tym jak już znamy Twoją osobowość, możesz rozpocząć rozmowę z naszym Asystentem.",
+          ),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.menu_page,
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Nie udało się wysłać testu: $e")),
+      );
+    }
+  }
+
+  Future<bool> _sendData() async {
+    final client = Supabase.instance.client;
     var user = client.auth.currentUser;
 
     try {
-      // jeśli z jakiegoś powodu user jest null (np. sesja nie weszła), spróbuj zalogować gościa
       if (user == null) {
         final guestAuth = GuestAuthService(client);
         await guestAuth.ensureSignedInAsGuest();
@@ -341,14 +332,15 @@ class TestPageState extends State<TestPage> {
 
       final payload = TestPayload(
         userId: user.id,
-        closedAnswers: closed,
-        openAnswers: open,
+        closedAnswers: _closedAnswers,
+        openAnswers: _openAnswers,
       );
 
       final response = await submitPsychologyTest(payload);
       debugPrint("Psychology test sent OK: $response");
       return true;
     } catch (e) {
+      debugPrint("Error sending psychology test: $e");
       return false;
     }
   }
