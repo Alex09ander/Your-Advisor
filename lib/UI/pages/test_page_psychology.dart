@@ -273,12 +273,12 @@ class TestPageState extends State<TestPage> {
 
   Future<void> _submitTest() async {
     try {
-      await _showLoadingDialog();
+      _showLoadingDialog(); // 👈 bez await
 
       final success = await _sendData();
 
       if (!mounted) return;
-      Navigator.pop(context); // zamknij loader
+      Navigator.of(context, rootNavigator: true).pop(); // zamknij loader
 
       if (!success) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -291,17 +291,11 @@ class TestPageState extends State<TestPage> {
 
       await showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Dziękujemy za wypełnienie testu"),
-          content: const Text(
+        builder: (context) => const AlertDialog(
+          title: Text("Dziękujemy za wypełnienie testu"),
+          content: Text(
             "Po tym jak już znamy Twoją osobowość, możesz rozpocząć rozmowę z naszym Asystentem.",
           ),
-          actions: [
-            FilledButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
         ),
       );
 
@@ -313,7 +307,7 @@ class TestPageState extends State<TestPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      Navigator.pop(context); // zamknij loader jeśli był
+      Navigator.of(context, rootNavigator: true).pop(); // spróbuj zamknąć loader
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Nie udało się wysłać testu: $e")),
       );
@@ -354,19 +348,22 @@ class TestPageState extends State<TestPage> {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => Center(
-        child: Container(
+      builder: (_) => Dialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: const Column(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               CircularProgressIndicator(),
               SizedBox(height: 16),
-              Text("Wysyłanie wyników..."),
+              Text(
+                "Wysyłanie wyników...",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ],
           ),
         ),
