@@ -273,8 +273,12 @@ class TestPageState extends State<TestPage> {
 
   Future<void> _submitTest() async {
     try {
+      await _showLoadingDialog();
+
       final success = await _sendData();
+
       if (!mounted) return;
+      Navigator.pop(context); // zamknij loader
 
       if (!success) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -305,10 +309,11 @@ class TestPageState extends State<TestPage> {
       Navigator.pushNamedAndRemoveUntil(
         context,
         AppRoutes.menu_page,
-        (route) => false,
+        (_) => false,
       );
     } catch (e) {
       if (!mounted) return;
+      Navigator.pop(context); // zamknij loader jeśli był
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Nie udało się wysłać testu: $e")),
       );
@@ -343,5 +348,29 @@ class TestPageState extends State<TestPage> {
       debugPrint("Error sending psychology test: $e");
       return false;
     }
+  }
+
+  Future<void> _showLoadingDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Center(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text("Wysyłanie wyników..."),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
