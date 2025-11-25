@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/app_routes.dart';
+
 // --- MOCK DATA MODELS ---
 // Clean models ready for your backend integration later.
 
@@ -378,7 +380,10 @@ class _StudyFieldCard extends StatelessWidget {
                 // M3 Tonal Button for lower emphasis actions
                 child: isMain 
                   ? FilledButton.tonal(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, AppRoutes.study_details_page);
+                      },
                       child: const Text('Szczegóły'),
                     )
                   : OutlinedButton(

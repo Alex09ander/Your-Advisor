@@ -5,6 +5,7 @@ import 'package:your_advisor/UI/intro/start.dart';
 import 'package:your_advisor/UI/pages/before_vocational_test_page.dart';
 import 'package:your_advisor/UI/pages/career_advice_page.dart';
 import 'package:your_advisor/UI/pages/fields_of_study.dart';
+import 'package:your_advisor/UI/pages/study_details_page.dart';
 import 'package:your_advisor/UI/pages/test_page_psychology.dart';
 import 'package:your_advisor/UI/pages/advice_page.dart';
 import 'package:your_advisor/UI/pages/test_page_vocational.dart';
@@ -22,6 +23,8 @@ class AppRoutes {
   static const String advice = '/advice';
   static const String career_advice = '/career_advice';
   static const String fields_of_study = '/fields_of_study';
+  static const String study_details_page = '/study_details_page';
+
 
   static Map<String, Widget Function(BuildContext)> getRoutes() => {
         splash_page: (context) => const SplashPage(),
@@ -31,6 +34,7 @@ class AppRoutes {
         before_test_vocational: (context) => const BeforeVocationalTestPage(),
         menu_page: (context) => const MenuPage(),
         advice: (context) => const AdvicePage(),
+        study_details_page: (context) => const StudyDetails(),
         career_advice: (context) {
           final userId = context.read<UserRepository>().userId!;
           return CareerAdvicePage(userId: userId, onShowStudies: (advice) {
