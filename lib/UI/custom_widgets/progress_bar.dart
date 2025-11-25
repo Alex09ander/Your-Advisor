@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:your_advisor/domain/app_colors.dart';
 
 class ProgressBar extends StatelessWidget {
-  double progress;
+  final double progress;
 
-  ProgressBar({
+  const ProgressBar({
+    super.key,
     this.progress = 50,
   });
 
@@ -18,7 +18,7 @@ class ProgressBar extends StatelessWidget {
             height: 20,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: AppColors.informColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           Container(
@@ -26,7 +26,7 @@ class ProgressBar extends StatelessWidget {
             height: 20,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: AppColors.secondaryColor,
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
           ),
         ],

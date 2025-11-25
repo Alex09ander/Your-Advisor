@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:your_advisor/UI/custom_widgets/accessibility_positioned_overlay.dart';
 import 'package:your_advisor/domain/app_routes.dart';
 import 'package:your_advisor/domain/auth/user_repository.dart';
 import 'package:your_advisor/domain/tests/test_repository.dart';
@@ -16,73 +17,79 @@ class MenuPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.surface,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: SafeArea(
               child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Gap(16),
-                      SvgPicture.asset(
-                        "assets/svg/Logo_test-removebg-preview.svg",
-                        width: 90,
-                      ),
-                      Gap(32),
-                      Text(
-                        "W czym mogę pomóc?",
-                        style: text.headlineMedium?.copyWith(
-                          color: colors.onSurface,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Gap(32),
-                      _MenuCard(
-                        iconPath: "assets/icon/psychology.png",
-                        title: "Otrzymaj wsparcie",
-                        description:
-                            "Czujesz ciężar na barkach? Nie wiesz, co dalej? Asystent wysłucha i przeprowadzi Cię przez trudniejszy moment.",
-                        onPressed: () =>
-                            Navigator.of(context).pushNamed(AppRoutes.advice),
-                      ),
-                      Gap(24),
-                      _MenuCard(
-                        iconPath: "assets/icon/goal.png",
-                        title: "Znajdź wymarzony zawód",
-                        description:
-                            "Niepewność zawodowa? Zły kierunek? Asystent dobierze zawód dopasowany do Twojej osobowości.",
-                        onPressed: () async {
-                          final userId = context.read<UserRepository>().userId!;
-                          final test =
-                              await context.read<TestRepository>().vocationTest(userId);
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 600),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Gap(16),
+                          SvgPicture.asset(
+                            "assets/svg/Logo_test-removebg-preview.svg",
+                            width: 90,
+                          ),
+                          Gap(32),
+                          Text(
+                            "W czym mogę pomóc?",
+                            style: text.headlineMedium?.copyWith(
+                              color: colors.onSurface,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Gap(32),
+                          _MenuCard(
+                            iconPath: "assets/icon/psychology.png",
+                            title: "Otrzymaj wsparcie",
+                            description:
+                                "Czujesz ciężar na barkach? Nie wiesz, co dalej? Asystent wysłucha i przeprowadzi Cię przez trudniejszy moment.",
+                            onPressed: () =>
+                                Navigator.of(context).pushNamed(AppRoutes.advice),
+                          ),
+                          Gap(24),
+                          _MenuCard(
+                            iconPath: "assets/icon/goal.png",
+                            title: "Znajdź wymarzony zawód",
+                            description:
+                                "Niepewność zawodowa? Zły kierunek? Asystent dobierze zawód dopasowany do Twojej osobowości.",
+                            onPressed: () async {
+                              final userId = context.read<UserRepository>().userId!;
+                              final test = await context
+                                  .read<TestRepository>()
+                                  .vocationTest(userId);
 
-                          if (test == null) {
-                            Navigator.of(context)
-                                .pushNamed(AppRoutes.before_test_vocational);
-                          } else {
-                            Navigator.of(context).pushNamed(AppRoutes.career_advice);
-                          }
-                        },
+                              if (test == null) {
+                                Navigator.of(context)
+                                    .pushNamed(AppRoutes.before_test_vocational);
+                              } else {
+                                Navigator.of(context).pushNamed(AppRoutes.career_advice);
+                              }
+                            },
+                          ),
+                          Gap(24),
+                          _SecondaryMenuCard(
+                            iconPath: "assets/icon/labor_market.png",
+                            title: "Sprawdź sytuację na rynku pracy",
+                            description:
+                                "Które zawody są obecnie popytowe? Jaki zawód będzie miał łatwo za 5 lat?",
+                            onPressed: () async {},
+                          ),
+                        ],
                       ),
-                      Gap(24),
-                      _SecondaryMenuCard(
-                        iconPath: "assets/icon/labor_market.png",
-                        title: "Sprawdź sytuację na rynku pracy",
-                        description:
-                            "Które zawody są obecnie popytowe? Jaki zawód będzie miał łatwo za 5 lat?",
-                        onPressed: () async {},
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
+          const AccessibilityOverlay(),
+        ],
       ),
     );
   }

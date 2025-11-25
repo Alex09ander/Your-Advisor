@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/intro/splash.dart';
 import 'package:your_advisor/UI/theme/app_theme.dart';
 import 'package:your_advisor/UI/theme/flutter_theme_creator.dart';
+import 'package:your_advisor/UI/theme/theme_controller.dart';
 import 'package:your_advisor/domain/auth/guest_auth_service.dart';
 import 'package:your_advisor/domain/auth/supabase_user_repository.dart';
 import 'package:your_advisor/domain/auth/user_repository.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeController()),
         Provider<TestRepository>(
           create: (context) {
             return BackendTestsRepository();
@@ -60,12 +62,23 @@ class MyApp extends StatelessWidget {
           // return MockCareerAdviceApi();
         })
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: flutterTheme,
-        home: const SplashPage(),
-        routes: AppRoutes.getRoutes(),
-        initialRoute: AppRoutes.splash_page,
+      child: Consumer<ThemeController>(
+        builder: (context, themeCtrl, _) {
+          final theme = FlutterThemeCreator().createFlutterTheme(
+            AppTheme(
+              isDark: false,
+              accessibilityModeIsOn: themeCtrl.accessibilityOn,
+            ),
+          );
+
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: theme,
+            home: const SplashPage(),
+            routes: AppRoutes.getRoutes(),
+            initialRoute: AppRoutes.splash_page,
+          );
+        },
       ),
     );
   }

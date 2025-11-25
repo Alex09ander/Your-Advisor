@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: SvgPicture.asset(
           "assets/svg/Logo_test-removebg-preview.svg",

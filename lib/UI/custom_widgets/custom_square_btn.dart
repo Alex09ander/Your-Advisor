@@ -22,17 +22,17 @@ class CustomSquareBtn extends StatelessWidget {
   CustomSquareBtn({
     required this.onTap,
     required this.text,
-    this.textColor=Colors.white,
+    this.textColor = Colors.white,
     this.mIconPath,
-    this.mWidth=300,
-    this.mHeight=50,
-    this.bgColor=Colors.white,
-    this.isOutlined=false,
-    this.iconColor=Colors.white,
-    this.fontSize=30,
-    this.sBoxSize=30,
-    this.sBoxSize2=30,
-    this.iconHeight=30,
+    this.mWidth = 300,
+    this.mHeight = 50,
+    this.bgColor = Colors.white,
+    this.isOutlined = false,
+    this.iconColor = Colors.white,
+    this.fontSize = 30,
+    this.sBoxSize = 30,
+    this.sBoxSize2 = 30,
+    this.iconHeight = 30,
   });
 
   @override
@@ -45,32 +45,55 @@ class CustomSquareBtn extends StatelessWidget {
         height: mHeight,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: isOutlined ? Colors.transparent: bgColor,
-          border: isOutlined ? Border.all(
-            width: 3,
-            color: isOutlined ? AppColors.primaryColor : Colors.transparent,
-          ) : null,
+          color: isOutlined ? Colors.transparent : bgColor,
+          border: isOutlined
+              ? Border.all(
+                  width: 3,
+                  color: isOutlined
+                      ? Theme.of(context).colorScheme.surface
+                      : Colors.transparent,
+                )
+              : null,
         ),
-        child: mIconPath != null ? Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-
-          child: Column(
-              children: [
-                SizedBox(height: sBoxSize,),
-                Row(
-
-                  children: [
-                    Expanded(child: Text(text, textAlign: TextAlign.center, style: TextStyle(color: textColor, fontSize: fontSize, fontWeight: FontWeight.bold, ),)),
-                    SvgPicture.asset(mIconPath!, height: iconHeight, color: iconColor,),
-                  ],
-                ),
-                SizedBox(height: sBoxSize2,),
-
-              ]
-          ),
-        ) : Center(
-          child: Center(child: Text(text, style: TextStyle(color: textColor, fontSize: fontSize, fontWeight: FontWeight.bold),)),
-        ),
+        child: mIconPath != null
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0),
+                child: Column(children: [
+                  SizedBox(
+                    height: sBoxSize,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                      SvgPicture.asset(
+                        mIconPath!,
+                        height: iconHeight,
+                        color: iconColor,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: sBoxSize2,
+                  ),
+                ]),
+              )
+            : Center(
+                child: Center(
+                    child: Text(
+                  text,
+                  style: TextStyle(
+                      color: textColor, fontSize: fontSize, fontWeight: FontWeight.bold),
+                )),
+              ),
       ),
     );
   }

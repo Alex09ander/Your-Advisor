@@ -23,6 +23,8 @@ Your Advisor to aplikacja mobilna stworzona, aby pomóc użytkownikom znaleźć 
 - **Przejrzyste UI** oparte o Material 3 + Expressive, z trybem zwiększonego kontrastu.
 - **Wieloplatformowość** - Planowana pełna obsługa iOS, Windows i macOS. Na razie działa na Androidzie, Linuxie i Webie
 
+⚠️ __Tryb Dostępności nie jest jeszcze dostosowany do małych ekranów__
+
 ---
 
 ## Szybki Start

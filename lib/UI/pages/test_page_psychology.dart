@@ -57,7 +57,7 @@ class TestPageState extends State<TestPage> {
     final bool isOpen = index >= 17;
 
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
