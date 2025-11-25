@@ -99,10 +99,13 @@ class TestPageVocationalState extends State<TestPageVocational> {
             ProgressBar(progress: _progressValue),
             const Gap(30),
             const Spacer(),
-            Text(
-              _allQuestions[_currentQuestionIndex],
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                _allQuestions[_currentQuestionIndex],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             const Gap(30),
             _isOpenQuestion ? _buildOpenInput() : _buildClosedOptions(),
