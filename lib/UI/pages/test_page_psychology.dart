@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/custom_widgets/custom_circle_btn.dart';
@@ -7,7 +6,6 @@ import 'package:your_advisor/domain/app_colors.dart';
 import 'package:your_advisor/domain/auth/guest_auth_service.dart';
 import 'package:your_advisor/domain/backend.dart';
 import '../../domain/app_routes.dart';
-import '../custom_widgets/custom_rounded_btn.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -60,24 +58,28 @@ class TestPageState extends State<TestPage> {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: 60),
-            ProgressBar(progress: (index / 21) * 350),
-            SizedBox(height: 50),
-            Text(
-              questions[index],
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            SizedBox(height: 30),
-            isOpen ? buildOpenInput() : buildClosedOptions(),
-            Spacer(),
-            buildBottomButtons(),
-            SizedBox(
-              height: 25,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              SizedBox(height: 70),
+              ProgressBar(progress: (index / 21) * 350),
+              Spacer(),
+              // SizedBox(height: 20),
+              Text(
+                questions[index],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              SizedBox(height: 30),
+              isOpen ? buildOpenInput() : buildClosedOptions(),
+              Spacer(),
+              buildBottomButtons(),
+              SizedBox(
+                height: 40,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -113,7 +115,7 @@ class TestPageState extends State<TestPage> {
     ];
 
     return Padding(
-      padding: const EdgeInsets.only(left: 20),
+      padding: const EdgeInsets.only(left: 25),
       child: Column(
         children: [
           for (int i = 0; i < 7; i++) ...[
@@ -246,12 +248,14 @@ class TestPageState extends State<TestPage> {
   Future<void> goNext() async {
     if (index == 20) {
       try {
-        await sendData();
+        sendData().then((sent) {
+          if (!sent) {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Wystąpił błąd: nie udało się zapisać Twojego testu.")));
+          }
+        });
 
-        if (!mounted) return;
-
-        // najpierw podziękowanie na tym ekranie
-        final cs = Theme.of(context).colorScheme;
         await showDialog(
           context: context,
           builder: (context) {
@@ -315,29 +319,34 @@ class TestPageState extends State<TestPage> {
     });
   }
 
-  Future<void> sendData() async {
+  Future<bool> sendData() async {
     final client = Supabase.instance.client;
 
     var user = client.auth.currentUser;
 
-    // jeśli z jakiegoś powodu user jest null (np. sesja nie weszła), spróbuj zalogować gościa
-    if (user == null) {
-      final guestAuth = GuestAuthService(client);
-      await guestAuth.ensureSignedInAsGuest();
-      user = client.auth.currentUser;
+    try {
+      // jeśli z jakiegoś powodu user jest null (np. sesja nie weszła), spróbuj zalogować gościa
+      if (user == null) {
+        final guestAuth = GuestAuthService(client);
+        await guestAuth.ensureSignedInAsGuest();
+        user = client.auth.currentUser;
+      }
+
+      if (user == null) {
+        throw Exception("Brak zalogowanego użytkownika (user == null)");
+      }
+
+      final payload = TestPayload(
+        userId: user.id,
+        closedAnswers: closed,
+        openAnswers: open,
+      );
+
+      final response = await submitPsychologyTest(payload);
+      debugPrint("Psychology test sent OK: $response");
+      return true;
+    } catch (e) {
+      return false;
     }
-
-    if (user == null) {
-      throw Exception("Brak zalogowanego użytkownika (user == null)");
-    }
-
-    final payload = TestPayload(
-      userId: user.id,
-      closedAnswers: closed,
-      openAnswers: open,
-    );
-
-    final response = await submitPsychologyTest(payload);
-    debugPrint("Psychology test sent OK: $response");
   }
 }

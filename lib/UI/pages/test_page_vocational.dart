@@ -5,7 +5,6 @@ import 'package:your_advisor/UI/custom_widgets/progress_bar.dart';
 import 'package:your_advisor/domain/app_colors.dart';
 import 'package:your_advisor/domain/backend.dart';
 import '../../domain/app_routes.dart';
-import '../custom_widgets/custom_rounded_btn.dart';
 
 class TestPageVocational extends StatefulWidget {
   @override
@@ -55,33 +54,99 @@ class TestPageVocationalState extends State<TestPageVocational> {
 
   int questionIndex = 0;
   int selectedAnswer = 0;
+  bool _sending = false;
 
   @override
   Widget build(BuildContext context) {
     final bool isOpen = questionIndex >= 23;
+
+    if (_sending) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: _buildSendingState(context),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 70),
             ProgressBar(progress: (questionIndex / 27) * 350),
-            const SizedBox(height: 10),
-            Container(
-              alignment: Alignment.center,
-              height: 120,
-              width: 400,
-              child: Text(
-                questions[questionIndex],
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+            Spacer(),
+            Text(
+              questions[questionIndex],
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             isOpen ? buildOpenInput() : buildClosedOptions(),
+            Spacer(),
             buildBottomButtons(),
+            SizedBox(
+              height: 40,
+            )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSendingState(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return Center(
+      child: TweenAnimationBuilder<double>(
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeOutCubic,
+        tween: Tween(begin: 0, end: 1),
+        builder: (context, value, child) {
+          return Opacity(
+            opacity: value,
+            child: Transform.scale(
+              scale: 0.92 + value * 0.08,
+              child: child,
+            ),
+          );
+        },
+        child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          color: colors.surfaceContainerHigh,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(32, 36, 32, 36),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 42,
+                  height: 42,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4,
+                    valueColor: AlwaysStoppedAnimation(colors.primary),
+                  ),
+                ),
+                const SizedBox(height: 26),
+                Text(
+                  'Przetwarzam odpowiedzi…',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: colors.onSurface,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Tworzę dla Ciebie profil zawodowy. Zajmie to kilka sekund.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -109,12 +174,6 @@ class TestPageVocationalState extends State<TestPageVocational> {
       "Nie zgadzam się",
       "Zdecydowanie się nie zgadzam"
     ];
-
-    Color colorFor(int i) {
-      if (i < 3) return AppColors.greenColor;
-      if (i == 3) return AppColors.greyColor;
-      return AppColors.purpleColor;
-    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 20),
@@ -237,20 +296,31 @@ class TestPageVocationalState extends State<TestPageVocational> {
     }
   }
 
-  void goNext() {
+  Future<void> goNext() async {
     if (questionIndex == 26) {
-      sendData();
-      Future.delayed(const Duration(seconds: 2), () {
-        if (!mounted) return;
-        Navigator.pop(context);
-        Navigator.pushNamed(context, AppRoutes.career_advice);
-      });
+      setState(() => _sending = true);
+
+      final ok = await sendData();
+
+      if (!mounted) return;
+
+      if (!ok) {
+        setState(() => _sending = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Nie udało się zapisać testu.")),
+        );
+        return;
+      }
+
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      Navigator.pushReplacementNamed(context, AppRoutes.career_advice);
       return;
     }
     setState(() => questionIndex++);
   }
 
-  void sendData() async {
+  Future<bool> sendData() async {
     final payload = TestPayload(
       userId: Supabase
           .instance.client.auth.currentUser!.id, // tutaj ID usera z Twojej aplikacji
@@ -261,8 +331,10 @@ class TestPageVocationalState extends State<TestPageVocational> {
     try {
       final response = await submitVocationalTest(payload);
       print("OK: $response");
+      return true;
     } catch (e) {
       print("ERR: $e");
+      return false;
     }
   }
 
