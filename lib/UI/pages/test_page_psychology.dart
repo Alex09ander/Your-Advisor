@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/custom_widgets/custom_circle_btn.dart';
 import 'package:your_advisor/UI/custom_widgets/progress_bar.dart';
@@ -62,8 +63,9 @@ class TestPageState extends State<TestPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              SizedBox(height: 70),
+              Gap(70),
               ProgressBar(progress: (index / 21) * 350),
+              Gap(20),
               Spacer(),
               // SizedBox(height: 20),
               Text(
@@ -71,13 +73,11 @@ class TestPageState extends State<TestPage> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              SizedBox(height: 30),
+              Gap(20),
               isOpen ? buildOpenInput() : buildClosedOptions(),
               Spacer(),
               buildBottomButtons(),
-              SizedBox(
-                height: 40,
-              )
+              Gap(40)
             ],
           ),
         ),
@@ -91,11 +91,14 @@ class TestPageState extends State<TestPage> {
   Widget buildOpenInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: TextField(
-        controller: myController,
-        minLines: 5,
-        maxLines: 10,
-        decoration: InputDecoration(labelText: "Wprowadź odpowiedź"),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 400),
+        child: TextField(
+          controller: myController,
+          minLines: 5,
+          maxLines: 10,
+          decoration: InputDecoration(labelText: "Wprowadź odpowiedź"),
+        ),
       ),
     );
   }
@@ -171,7 +174,7 @@ class TestPageState extends State<TestPage> {
   // ---------------------------------------
   Widget buildBottomButtons() {
     final cs = Theme.of(context).colorScheme;
-    final isLast = index == 20;
+    final isLast = index == questions.length - 1;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),

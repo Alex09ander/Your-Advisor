@@ -215,7 +215,7 @@ class FlutterThemeCreator {
       titleLarge: TextStyle(
         fontFamily: fontFamily,
         fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: textColor,
       ),
       titleMedium: TextStyle(

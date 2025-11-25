@@ -250,6 +250,9 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
   Widget _buildAdviceCard(BuildContext context, CareerAdvice advice) {
     final colors = Theme.of(context).colorScheme;
 
+    final width = MediaQuery.of(context).size.width;
+    final isWide = width > 800;
+
     const mockImageUrl =
         'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800';
 
@@ -261,151 +264,193 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
 
     return Align(
       alignment: Alignment.topCenter,
-      child: SingleChildScrollView(
-        child: Card(
-          elevation: 1,
-          color: colors.surfaceContainerHighest,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-                child: Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Image.network(mockImageUrl, fit: BoxFit.cover),
-                    ),
-                    Positioned(
-                      left: 16,
-                      bottom: 16,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.surface.withOpacity(0.85),
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.work_outline_rounded,
-                                  size: 16, color: colors.onSurface),
-                              const SizedBox(width: 6),
-                              Text(
-                                demandFiltered
-                                    ? 'Propozycja zawodu ${_priorityHint(_priority)}'
-                                    : 'Propozycja zawodu',
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                      color: colors.onSurfaceVariant,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
+      child: isWide
+          ? Card(
+              elevation: 1,
+              color: colors.surfaceContainerHighest,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 350,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(28),
                       ),
+                      child: AspectRatio(
+                        aspectRatio: 4 / 5,
+                        child: Image.network(mockImageUrl, fit: BoxFit.cover),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+                      child: _buildAdviceContent(context, advice, mainJob),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : SingleChildScrollView(
+              child: Card(
+                elevation: 1,
+                color: colors.surfaceContainerHighest,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.network(mockImageUrl, fit: BoxFit.cover),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+                      child: _buildAdviceContent(context, advice, mainJob),
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      mainJob,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                    const SizedBox(height: 10),
-                    if (demandFiltered && !hasDemandMatch) ...[
-                      _buildNoDemandMatchBanner(context, _priority, bestJob),
-                      const SizedBox(height: 12),
-                    ] else ...[
-                      Text(
-                        'To najwyżej oceniana opcja na bazie Twojej osobowości.',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: colors.onSurfaceVariant,
-                              height: 1.4,
-                            ),
+            ),
+    );
+  }
+
+  Widget _buildJobTile(
+    BuildContext context,
+    ({String job, double score}) item,
+    String highlight,
+    bool demandActive,
+    Set<String> fits,
+    double maxScore,
+  ) {
+    final colors = Theme.of(context).colorScheme;
+
+    final raw = item.score;
+    num transform(num number) => math.pow(number, 1 / 4);
+    final norm = transform(raw);
+    final maxNorm = transform(maxScore);
+    final value = (norm / maxNorm).clamp(0.0, 1.0);
+
+    final isMain = item.job == highlight;
+    final demandOK = fits.contains(item.job);
+
+    // tło
+    final bg = demandActive
+        ? (demandOK
+            ? colors.primaryContainer.withOpacity(0.55)
+            : colors.surfaceContainerLow.withOpacity(0.30))
+        : (isMain
+            ? colors.primaryContainer.withOpacity(0.6)
+            : colors.surfaceContainerLow);
+
+    // ramka
+    final borderColor = demandActive
+        ? (demandOK ? colors.primary : Colors.transparent)
+        : (isMain ? colors.primary : colors.outlineVariant);
+
+    // tekst
+    final textColor =
+        demandActive && !demandOK ? colors.onSurface.withOpacity(0.35) : colors.onSurface;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  item.job,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: isMain ? FontWeight.w700 : FontWeight.w600,
+                        color: textColor,
                       ),
-                      const SizedBox(height: 12),
-                    ],
-                    _buildTopJobsList(context, advice, highlight: mainJob),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: FilledButton.icon(
-                            // onPressed: () {
-                            //   if (widget.onShowJobDetails != null) {
-                            //     widget.onShowJobDetails!(advice);
-                            //   } else {
-                            //     ScaffoldMessenger.of(context).showSnackBar(
-                            //       const SnackBar(
-                            //         content: Text('TODO: przejście do szczegółów zawodu'),
-                            //       ),
-                            //     );
-                            //   }
-                            // },
-                            onPressed: () {
-                              if (widget.onShowStudies != null) {
-                                widget.onShowStudies!(advice);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('TODO: kierunki studiów'),
-                                  ),
-                                );
-                              }
-                            },
-                            icon: const Icon(Icons.info_outline_rounded),
-                            label: const Text('Sprawdź zawód'),
-                          ),
-                        ),
-                        // const SizedBox(width: 12),
-                        // Expanded(
-                        //   child: OutlinedButton.icon(
-                        //     onPressed: () {
-                        //       if (widget.onShowStudies != null) {
-                        //         widget.onShowStudies!(advice);
-                        //       } else {
-                        //         ScaffoldMessenger.of(context).showSnackBar(
-                        //           const SnackBar(
-                        //             content: Text('TODO: kierunki studiów'),
-                        //           ),
-                        //         );
-                        //       }
-                        //     },
-                        //     icon: const Icon(Icons.school_rounded),
-                        //     label: const Text('Kierunki studiów'),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton.icon(
-                        onPressed: () => Navigator.maybePop(context),
-                        icon: const Icon(Icons.arrow_back_rounded),
-                        label: const Text('Wróć'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: colors.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${(value * 100).round()}%',
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: colors.onSurfaceVariant,
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: value,
+              minHeight: 7,
+              backgroundColor: colors.surfaceContainerHigh,
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildAdviceContent(BuildContext context, CareerAdvice advice, String mainJob) {
+    final colors = Theme.of(context).colorScheme;
+    final demandFiltered = _priority != JobDemandPriority.none;
+    final hasDemandMatch = advice.jobWithDemand != null;
+    final bestJob = advice.absoluteBestJob;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          mainJob,
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+        ),
+        const SizedBox(height: 10),
+        if (demandFiltered && !hasDemandMatch)
+          _buildNoDemandMatchBanner(context, _priority, bestJob)
+        else
+          Text(
+            'To najwyżej oceniana opcja na bazie Twojej osobowości.',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colors.onSurfaceVariant,
+                  height: 1.4,
+                ),
+          ),
+        const SizedBox(height: 12),
+        _buildTopJobsList(context, advice, highlight: mainJob),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: () {
+              if (widget.onShowStudies != null) {
+                widget.onShowStudies!(advice);
+              }
+            },
+            icon: const Icon(Icons.info_outline_rounded),
+            label: const Text('Sprawdź zawód'),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton.icon(
+            onPressed: () => Navigator.maybePop(context),
+            icon: const Icon(Icons.arrow_back_rounded),
+            label: const Text('Wróć'),
+          ),
+        ),
+      ],
     );
   }
 
@@ -461,6 +506,9 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
   }) {
     final colors = Theme.of(context).colorScheme;
 
+    final width = MediaQuery.of(context).size.width;
+    final isWide = width > 800;
+
     final pairs = <({String job, double score})>[];
     for (var i = 0; i < math.min(advice.jobs.length, advice.scores.length); i++) {
       pairs.add((job: advice.jobs[i], score: advice.scores[i]));
@@ -477,6 +525,25 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
 
     final demandActive = _priority != JobDemandPriority.none;
     final fits = advice.fitsToDemand;
+
+    if (isWide) {
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 6,
+        ),
+        itemCount: top.length,
+        itemBuilder: (context, index) {
+          final item = top[index];
+          return _buildJobTile(
+              context, item, highlight, demandActive, fits.toSet(), maxScore);
+        },
+      );
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

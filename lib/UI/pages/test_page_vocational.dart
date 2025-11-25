@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_advisor/UI/custom_widgets/custom_circle_btn.dart';
 import 'package:your_advisor/UI/custom_widgets/progress_bar.dart';
@@ -74,19 +75,18 @@ class TestPageVocationalState extends State<TestPageVocational> {
           children: [
             const SizedBox(height: 70),
             ProgressBar(progress: (questionIndex / 27) * 350),
+            Gap(20),
             Spacer(),
             Text(
               questions[questionIndex],
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 30),
+            Gap(20),
             isOpen ? buildOpenInput() : buildClosedOptions(),
             Spacer(),
             buildBottomButtons(),
-            SizedBox(
-              height: 40,
-            )
+            Gap(40)
           ],
         ),
       ),
@@ -155,11 +155,14 @@ class TestPageVocationalState extends State<TestPageVocational> {
   Widget buildOpenInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: TextField(
-        controller: myController,
-        minLines: 5,
-        maxLines: 10,
-        decoration: InputDecoration(labelText: "Wprowadź odpowiedź"),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 450),
+        child: TextField(
+          controller: myController,
+          minLines: 5,
+          maxLines: 10,
+          decoration: InputDecoration(labelText: "Wprowadź odpowiedź"),
+        ),
       ),
     );
   }
@@ -229,7 +232,7 @@ class TestPageVocationalState extends State<TestPageVocational> {
 
   Widget buildBottomButtons() {
     final cs = Theme.of(context).colorScheme;
-    final isLast = questionIndex == 20;
+    final isLast = questionIndex == questions.length - 1;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),

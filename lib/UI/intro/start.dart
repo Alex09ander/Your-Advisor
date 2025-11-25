@@ -24,7 +24,7 @@ class StartPage extends StatelessWidget {
               Center(
                 child: Text(
                   "Poznajmy się!",
-                  style: Theme.of(context).textTheme.displayMedium,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
               const Spacer(),

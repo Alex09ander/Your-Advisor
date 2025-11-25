@@ -30,15 +30,15 @@ class _SplashPageState extends State<SplashPage> {
             throw Exception("Context is not mounted");
           }
           if (psychologyTestExists) {
-            Navigator.pushNamed(context, AppRoutes.menu_page);
+            Navigator.pushReplacementNamed(context, AppRoutes.menu_page);
           } else {
-            Navigator.pushNamed(context, AppRoutes.test_psychology);
+            Navigator.pushReplacementNamed(context, AppRoutes.test_psychology);
           }
         } else {
-          Navigator.pushNamed(context, AppRoutes.start_page);
+          Navigator.pushReplacementNamed(context, AppRoutes.start_page);
         }
       } catch (e) {
-        Navigator.pushNamed(context, AppRoutes.start_page);
+        Navigator.pushReplacementNamed(context, AppRoutes.start_page);
       }
     });
   }

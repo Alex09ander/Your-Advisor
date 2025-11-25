@@ -18,23 +18,26 @@ class BeforeVocationalTestPage extends StatelessWidget {
               Gap(80),
               Center(
                 child: Text(
-                  "Szukasz idealnego zawodu dla siebie?",
-                  style: Theme.of(context).textTheme.displayMedium,
+                  "Pomożemy wybrać Twój zawód marzeń!",
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
               const Spacer(),
               Image.asset(
-                "assets/icon/quiz.png",
-                height: 220,
+                "assets/icon/job_heart.png",
+                height: 200,
                 fit: BoxFit.fitHeight,
               ),
-              Gap(20),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Text(
-                    "Żeby poznać swój wymarzony zawód, poprosimy Cię o wypełnienie testu kompetencji zawodowych. Dzięki temu odrzucimy to, co nie pasuje Twoim predyspozycjom. Test zajmie do kilku minut.",
-                    textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.bodyMedium!),
+              Gap(30),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 450),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Text(
+                      "Żeby poznać swój wymarzony zawód, poprosimy Cię o wypełnienie testu kompetencji zawodowych. Dzięki temu odrzucimy kierunki, które nie pasują. Test zajmie do kilku minut.",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.bodyMedium!),
+                ),
               ),
               const Gap(15),
               const Spacer(),
