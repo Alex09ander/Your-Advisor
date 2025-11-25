@@ -375,9 +375,11 @@ class TestPageVocationalState extends State<TestPageVocational> {
     }
 
     try {
+      final fixedClosed = _closedAnswers.map((v) => v == 0 ? 0 : (8 - v)).toList();
+
       final payload = TestPayload(
         userId: user.id,
-        closedAnswers: _closedAnswers,
+        closedAnswers: fixedClosed,
         openAnswers: _openAnswers,
       );
 
