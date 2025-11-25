@@ -262,6 +262,46 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
     final String mainJob =
         (demandFiltered && hasDemandMatch) ? advice.jobWithDemand! : bestJob;
 
+    final adviceLabelContainer = ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+      child: Stack(
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Image.network(mockImageUrl, fit: BoxFit.cover),
+          ),
+          Positioned(
+            left: 16,
+            bottom: 16,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.surface.withOpacity(0.85),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.work_outline_rounded, size: 16, color: colors.onSurface),
+                    SizedBox(width: 6),
+                    Text(
+                      demandFiltered
+                          ? 'Propozycja ${_priorityHint(_priority)}'
+                          : 'Propozycja zawodu',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: colors.onSurfaceVariant,
+                          ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
     return Align(
       alignment: Alignment.topCenter,
       child: isWide
@@ -272,18 +312,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 350,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.horizontal(
-                        left: Radius.circular(28),
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: 4 / 5,
-                        child: Image.network(mockImageUrl, fit: BoxFit.cover),
-                      ),
-                    ),
-                  ),
+                  adviceLabelContainer,
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
@@ -300,13 +329,7 @@ class _CareerAdvicePageState extends State<CareerAdvicePage> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
                 child: Column(
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: Image.network(mockImageUrl, fit: BoxFit.cover),
-                      ),
-                    ),
+                    adviceLabelContainer,
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
                       child: _buildAdviceContent(context, advice, mainJob),

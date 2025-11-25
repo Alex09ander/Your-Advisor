@@ -65,7 +65,7 @@ class TestPageState extends State<TestPage> {
             children: [
               Gap(70),
               ProgressBar(progress: (index / 21) * 350),
-              Gap(20),
+              Gap(30),
               Spacer(),
               // SizedBox(height: 20),
               Text(
@@ -73,7 +73,7 @@ class TestPageState extends State<TestPage> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              Gap(20),
+              Gap(30),
               isOpen ? buildOpenInput() : buildClosedOptions(),
               Spacer(),
               buildBottomButtons(),

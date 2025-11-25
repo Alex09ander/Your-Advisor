@@ -75,14 +75,14 @@ class TestPageVocationalState extends State<TestPageVocational> {
           children: [
             const SizedBox(height: 70),
             ProgressBar(progress: (questionIndex / 27) * 350),
-            Gap(20),
+            Gap(30),
             Spacer(),
             Text(
               questions[questionIndex],
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            Gap(20),
+            Gap(30),
             isOpen ? buildOpenInput() : buildClosedOptions(),
             Spacer(),
             buildBottomButtons(),
